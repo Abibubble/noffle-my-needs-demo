@@ -1,7 +1,8 @@
 // Replaces the original /profile, /update_user and /delete_account routes.
 // There's no username or password in the demo, so those fields have gone.
 
-import { avatarSrc, renderCarousel } from '../avatars.js';
+import { avatarName, avatarPickerHtml, avatarSrc } from '../avatars.js';
+import { checkForm, clearErrorsOnInput } from '../forms.js';
 import { addFlash, esc, go, setupPage } from '../layout.js';
 import { PANIC_ID } from '../data.js';
 import { deletePerson, noffleList, updatePerson } from '../store.js';
@@ -33,10 +34,7 @@ if (page) {
                                     </div>
                                     <hr>
                                     <p class="card-text">${esc(noffle.description)}</p>
-                                    <i class="fas fa-exclamation-circle"></i>
-                                    <input id="private" type="checkbox"${noffle.private ? ' checked' : ''}>
-                                    <label for="private">Private</label>
-                                    <br>
+                                    <p class="card-text">This Noffle is ${noffle.private ? 'private' : 'public'}</p>
                                 </div>
                             </div>
                         </div>`,
@@ -60,25 +58,21 @@ if (page) {
     <div class="row pb-5">
         <div class="col-12 col-md-5 p-4 profile-form-area rounded">
             <h2 class="section-heading">Your Details</h2>
-            <img class="avatar-profile" src="${avatarSrc(me.image_no)}" alt="Icon for ${esc(me.first_name)}">
+            <img class="avatar-profile" src="${avatarSrc(me.image_no)}" alt="Your avatar: ${avatarName(me.image_no)}">
             <div class="login-form profile-login-form rounded mx-auto mb-2">
-                <form id="update-user-form">
+                <form id="update-user-form" novalidate>
+                    <p class="mb-4">All fields are required.</p>
                     <div class="form-group row mb-4">
-                        <div class="col-2 center-icon"><i class="fas fa-2x fa-genderless"></i></div>
-                        <label for="pronouns" class="sr-only">Pronouns</label>
+                        <div class="col-2 center-icon"><i class="fas fa-2x fa-genderless" aria-hidden="true"></i></div>
                         <div class="col-10">
-                            <input id="pronouns" value="${esc(me.pronouns)}" name="pronouns" type="text" minlength="5" maxlength="40" class="form-control" placeholder="Pronouns - (she/her, he/him, they/them)" required>
+                            <label for="pronouns" class="form-label">Pronouns</label>
+                            <p id="pronouns-hint" class="form-hint">For example, she/her, he/him or they/them</p>
+                            <input id="pronouns" value="${esc(me.pronouns)}" name="pronouns" type="text" minlength="2" maxlength="40" class="form-control" aria-describedby="pronouns-hint" data-required-message="Enter pronouns, for example they/them" required>
                         </div>
                     </div>
-                    <div class="form-group row mb-4">
-                        <div class="col-2 center-icon"><i class="fas fa-2x fa-image"></i></div>
-                        <label for="image_no" class="sr-only">Image Number</label>
-                        <div class="col-10">
-                            <input id="image_no" value="${esc(me.image_no)}" name="image_no" placeholder="Avatar image number" min="1" max="13" type="number" class="form-control" required>
-                        </div>
-                    </div>
+                    ${avatarPickerHtml(me.image_no)}
                     <div class="row">
-                        <button name="login" id="login" class="btn login-btn btn-green mt-3 tap-target" type="submit">Update Details</button>
+                        <button class="btn login-btn btn-green mt-3 tap-target" type="submit">Update Details</button>
                     </div>
                 </form>
             </div>
@@ -100,9 +94,6 @@ if (page) {
     </div>`
         : ''
     }
-    <div class="row">
-        <div class="col-sm-12 col-md-6 offset-md-3" id="avatar-carousel"></div>
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
@@ -126,10 +117,11 @@ if (page) {
         </div>
     </div>`;
 
-  renderCarousel(document.getElementById('avatar-carousel'), 'h3');
-
-  document.getElementById('update-user-form').addEventListener('submit', (event) => {
+  const updateForm = document.getElementById('update-user-form');
+  clearErrorsOnInput(updateForm);
+  updateForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (!checkForm(event.target)) return;
     updatePerson(state, me.id, Object.fromEntries(new FormData(event.target)));
     save();
     addFlash('Your details have been updated');

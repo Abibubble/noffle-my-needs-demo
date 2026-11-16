@@ -3,6 +3,7 @@
 // with inline styles, and that's kept here.
 
 import { avatarSrc } from '../avatars.js';
+import { checkForm, clearErrorsOnInput } from '../forms.js';
 import { addFlash, esc, go, setupPage } from '../layout.js';
 import { deletePerson, findPerson, toggleAdmin, updatePerson, visibleNoffles } from '../store.js';
 
@@ -50,23 +51,23 @@ if (page) {
                                         </div>
                                         <div class="modal-body">
                                             <div class="login-form profile-login-form rounded mx-auto mb-2">
-                                                <form data-update-user="${id}">
+                                                <form data-update-user="${id}" novalidate>
                                                     <div class="form-group row mb-4">
-                                                        <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card"></i></div>
-                                                        <label for="first_name" class="sr-only">First Name</label>
+                                                        <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card" aria-hidden="true"></i></div>
                                                         <div class="col-10">
-                                                            <input id="first_name" value="${esc(user.first_name)}" name="first_name" placeholder="First Name" class="form-control" type="text" minlength="3" maxlength="20" required>
+                                                            <label for="first_name-${id}" class="form-label">First name</label>
+                                                            <input id="first_name-${id}" value="${esc(user.first_name)}" name="first_name" class="form-control" type="text" maxlength="50" autocomplete="off" data-required-message="Enter a first name" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row mb-4">
-                                                        <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card"></i></div>
-                                                        <label for="last_name" class="sr-only">Last Name</label>
+                                                        <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card" aria-hidden="true"></i></div>
                                                         <div class="col-10">
-                                                            <input id="last_name" value="${esc(user.last_name)}" name="last_name" placeholder="Last Name" type="text" class="form-control" minlength="2" maxlength="40" required>
+                                                            <label for="last_name-${id}" class="form-label">Last name</label>
+                                                            <input id="last_name-${id}" value="${esc(user.last_name)}" name="last_name" type="text" class="form-control" maxlength="50" autocomplete="off" data-required-message="Enter a last name" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <button name="login" id="login" class="btn login-btn btn-green mt-3 tap-target" type="submit">Update Details</button>
+                                                        <button class="btn login-btn btn-green mt-3 tap-target" type="submit">Update Details</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -149,10 +150,12 @@ if (page) {
     }
   });
 
+  clearErrorsOnInput(list);
   list.addEventListener('submit', (event) => {
     const form = event.target.closest('[data-update-user]');
     if (!form) return;
     event.preventDefault();
+    if (!checkForm(form)) return;
     const user = findPerson(state, form.dataset.updateUser);
     updatePerson(state, user.id, {
       first_name: form.elements.first_name.value,

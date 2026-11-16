@@ -53,6 +53,14 @@ test.describe('1.4.10 Reflow at 400% zoom', () => {
       expect(covered).toBeLessThanOrEqual(ZOOM_400.height / 4);
       const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
       expect(scrollWidth).toBeLessThanOrEqual(ZOOM_400.width);
+      // Nothing in the page pokes out past the edge of the screen, even if it's clipped.
+      const tooWide = await page.evaluate((width) =>
+        [...document.querySelectorAll('main *')]
+          .filter((el) => el.getClientRects().length > 0 && !el.closest('.modal'))
+          .filter((el) => el.getBoundingClientRect().right > width + 1)
+          .map((el) => `${el.tagName}.${el.className}`.slice(0, 60)),
+      ZOOM_400.width);
+      expect(tooWide).toEqual([]);
     });
   }
 
@@ -195,5 +203,156 @@ test.describe('1.4.11 Form field edges', () => {
     expect(await field.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe('rgb(0, 0, 0)');
     await field.focus();
     expect(await field.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe('rgb(0, 0, 0)');
+  });
+});
+
+// The pages with forms, and how to open a form that starts hidden.
+const FORM_PAGES = [
+  { path: '/choose.html', name: 'Choose a Demo Person' },
+  { path: '/profile.html', name: 'Profile' },
+  { path: '/new-noffle.html', name: 'Add New Noffle' },
+  {
+    path: '/manage-users.html',
+    name: 'Manage Users',
+    open: (page) => page.getByRole('button', { name: 'Modify User' }).first().click(),
+  },
+];
+
+test.describe('3.3.2 Labels and 4.1.1 unique ids', () => {
+  for (const { path, name, open } of FORM_PAGES) {
+    test(`${name}: every visible field has its own visible label`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      if (open) await open(page);
+      const problems = await page.evaluate(() =>
+        [...document.querySelectorAll('main input, main textarea, main select')]
+          .filter((field) => field.getClientRects().length > 0)
+          .filter((field) => {
+            const label = field.labels?.[0];
+            const visible =
+              label &&
+              label.getClientRects().length > 0 &&
+              label.getBoundingClientRect().width > 1 &&
+              label.textContent.trim().length > 0;
+            return !visible || field.labels.length !== 1;
+          })
+          .map((field) => field.id || field.name),
+      );
+      expect(problems).toEqual([]);
+    });
+  }
+
+  for (const { path, name } of PAGES) {
+    test(`${name} has no repeated ids`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      const repeated = await page.evaluate(() => {
+        const counts = {};
+        for (const el of document.querySelectorAll('[id]')) counts[el.id] = (counts[el.id] ?? 0) + 1;
+        return Object.keys(counts).filter((id) => counts[id] > 1);
+      });
+      expect(repeated).toEqual([]);
+    });
+  }
+
+  test('the Profile page shows whether each Noffle is private, without a checkbox that does nothing', async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Rowan Hughes');
+    await page.goto('/profile.html');
+    const noffles = page.locator('.noffle-card');
+    await expect(noffles.locator('input')).toHaveCount(0);
+    await expect(noffles.filter({ hasText: 'Low energy day' })).toContainText('This Noffle is private');
+    await expect(noffles.filter({ hasText: 'Focus time' })).toContainText('This Noffle is public');
+  });
+});
+
+test.describe('2.2.2 No moving content, and avatars chosen by name', () => {
+  for (const path of ['/choose.html', '/profile.html']) {
+    test(`${path} has no carousel, and avatars are radio buttons with names`, async ({ page }) => {
+      await chooseAs(page, 'Sam Okafor');
+      await page.goto(path);
+      await expect(page.locator('.carousel')).toHaveCount(0);
+      const group = page.getByRole('group', { name: 'Avatar' });
+      await expect(group.getByRole('radio')).toHaveCount(13);
+      await expect(group.getByRole('radio', { name: 'Blue triangle' })).toBeVisible();
+    });
+  }
+
+  test('the Profile picker starts on your current avatar', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/profile.html');
+    await expect(page.getByRole('radio', { name: 'Blue triangle' })).toBeChecked();
+  });
+});
+
+test.describe('1.3.5 Input purpose', () => {
+  test('name fields say they are for given and family names', async ({ page }) => {
+    await page.goto('/choose.html');
+    await expect(page.locator('#first_name')).toHaveAttribute('autocomplete', 'given-name');
+    await expect(page.locator('#last_name')).toHaveAttribute('autocomplete', 'family-name');
+  });
+});
+
+test.describe('3.3.1 and 3.3.3 Errors in text, next to the field', () => {
+  test('an empty form shows a message by each field and focuses the first', async ({ page }) => {
+    await page.goto('/choose.html');
+    await page.getByRole('button', { name: 'Add Person' }).click();
+    const first = page.locator('#first_name');
+    await expect(first).toBeFocused();
+    await expect(first).toHaveAttribute('aria-invalid', 'true');
+    await expect(first).toHaveAccessibleDescription('Error: Enter a first name');
+    await expect(page.locator('#pronouns')).toHaveAccessibleDescription(
+      /For example, she\/her.*Error: Enter pronouns/,
+    );
+    await expect(page.getByRole('group', { name: 'Avatar' })).toHaveAccessibleDescription(
+      'Error: Choose an avatar',
+    );
+    await expect(page).toHaveURL(/choose\.html$/);
+    // The message goes as soon as you type.
+    await first.fill('Kit');
+    await expect(first).not.toHaveAttribute('aria-invalid', 'true');
+  });
+
+  test('a Noffle name that already exists shows an error and keeps what you typed', async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/new-noffle.html');
+    await page.getByLabel('Noffle name').fill('Focus time');
+    await page.getByLabel('Description').fill('Something new');
+    await page.getByLabel('Icon').fill('fas fa-star');
+    await page.getByRole('button', { name: 'Submit New Noffle' }).click();
+    await expect(page).toHaveURL(/new-noffle\.html$/);
+    const name = page.getByLabel('Noffle name');
+    await expect(name).toBeFocused();
+    await expect(name).toHaveAttribute('aria-invalid', 'true');
+    await expect(name).toHaveAccessibleDescription(/There's already a Noffle called "Focus time"/);
+    await expect(page.getByLabel('Description')).toHaveValue('Something new');
+  });
+
+  test('an icon that is not a Font Awesome class name gets a suggestion', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/new-noffle.html');
+    await page.getByLabel('Noffle name').fill('Standing');
+    await page.getByLabel('Description').fill('I need a standing desk');
+    await page.getByLabel('Icon').fill('chair');
+    await page.getByRole('button', { name: 'Submit New Noffle' }).click();
+    await expect(page.getByLabel('Icon')).toHaveAccessibleDescription(
+      /Error: Enter an icon class name like fas fa-coffee/,
+    );
+  });
+});
+
+test.describe('3.3.2 Instructions match the page', () => {
+  test("Set My Noffles doesn't promise a private or public choice it doesn't have", async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await expect(page.locator('main')).not.toContainText(
+      'You can also choose whether you would like it to be private or public',
+    );
   });
 });

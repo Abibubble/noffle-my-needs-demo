@@ -1,6 +1,7 @@
 // Replaces the original /login and /register routes.
 
-import { avatarSrc, renderCarousel } from '../avatars.js';
+import { avatarPickerHtml, avatarSrc } from '../avatars.js';
+import { checkForm, clearErrorsOnInput } from '../forms.js';
 import { addFlash, esc, go, setupPage } from '../layout.js';
 import { resetState } from '../persist.js';
 import { addPerson, choosePerson, fullName, greeting } from '../store.js';
@@ -15,6 +16,8 @@ if (page) {
     viewingAs.textContent = `You're viewing as ${fullName(me)}. Choose someone else to switch.`;
     viewingAs.hidden = false;
   }
+
+  document.getElementById('avatar-picker').innerHTML = avatarPickerHtml();
 
   const list = document.getElementById('person-list');
   list.innerHTML = state.people
@@ -43,8 +46,11 @@ if (page) {
     go('set-noffles.html');
   });
 
-  document.getElementById('add-person-form').addEventListener('submit', (event) => {
+  const addPersonForm = document.getElementById('add-person-form');
+  clearErrorsOnInput(addPersonForm);
+  addPersonForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (!checkForm(event.target)) return;
     const data = Object.fromEntries(new FormData(event.target));
     const person = addPerson(state, data);
     choosePerson(state, person.id);
@@ -58,6 +64,4 @@ if (page) {
     addFlash('The demo has been reset');
     go('choose.html');
   });
-
-  renderCarousel(document.getElementById('avatar-carousel'), 'h3');
 }

@@ -115,7 +115,7 @@ test.describe('as a colleague', () => {
     await page.goto('/profile.html');
     await expect(page.getByRole('heading', { name: "Sam's Profile" })).toBeVisible();
     await page.locator('#pronouns').fill('they/he');
-    await page.locator('#image_no').fill('11');
+    await page.getByLabel('Green star').check();
     await page.getByRole('button', { name: 'Update Details' }).click();
     await expect(page.locator('#flash')).toContainText('Your details have been updated');
     await expect(page.locator('#pronouns')).toHaveValue('they/he');
@@ -161,7 +161,7 @@ test.describe('adding a demo person', () => {
     await page.locator('#first_name').fill('Kit');
     await page.locator('#last_name').fill('Jones');
     await page.locator('#pronouns').fill('they/them');
-    await page.locator('#image_no').fill('5');
+    await page.getByLabel('Red diamond').check();
     await page.getByRole('button', { name: 'Add Person' }).click();
     await expect(page).toHaveURL(/profile\.html$/);
     await expect(page.locator('#flash')).toContainText('Hi, Kit. Welcome to Noffle My Needs.');
@@ -173,7 +173,7 @@ test.describe('adding a demo person', () => {
     await page.locator('#first_name').fill('<img src=x onerror=alert(1)>');
     await page.locator('#last_name').fill('Test');
     await page.locator('#pronouns').fill('they/them');
-    await page.locator('#image_no').fill('2');
+    await page.getByLabel('Red square').check();
     let dialog = false;
     page.on('dialog', async (d) => {
       dialog = true;

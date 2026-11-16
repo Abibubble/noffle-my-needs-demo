@@ -4,20 +4,21 @@
 export const PANIC_ID = 'panic';
 
 // The avatars are simple shapes drawn for this demo (see site/img/avatarN.svg).
+// Each name is shown next to its picture, so people can pick by name or by picture.
 export const AVATARS = [
-  { number: 1, description: 'A green circle with a smile' },
-  { number: 2, description: 'A red square with a smile' },
-  { number: 3, description: 'A blue triangle with a smile' },
-  { number: 4, description: 'A yellow hexagon with a smile' },
-  { number: 5, description: 'A red diamond with a smile' },
-  { number: 6, description: 'A pink circle with a smile' },
-  { number: 7, description: 'A purple square with a smile' },
-  { number: 8, description: 'A green triangle with a smile' },
-  { number: 9, description: 'A blue hexagon with a smile' },
-  { number: 10, description: 'A purple diamond with a smile' },
-  { number: 11, description: 'A green star with a smile' },
-  { number: 12, description: 'A pink star with a smile' },
-  { number: 13, description: 'An orange circle with a smile' },
+  { number: 1, name: 'Green circle' },
+  { number: 2, name: 'Red square' },
+  { number: 3, name: 'Blue triangle' },
+  { number: 4, name: 'Yellow hexagon' },
+  { number: 5, name: 'Red diamond' },
+  { number: 6, name: 'Pink circle' },
+  { number: 7, name: 'Purple square' },
+  { number: 8, name: 'Green triangle' },
+  { number: 9, name: 'Blue hexagon' },
+  { number: 10, name: 'Purple diamond' },
+  { number: 11, name: 'Green star' },
+  { number: 12, name: 'Pink star' },
+  { number: 13, name: 'Orange circle' },
 ];
 
 export const SAMPLE_NOFFLES = [

@@ -1,5 +1,10 @@
-// The avatar carousel from the team's register and profile pages.
-// It shows which avatar goes with which number.
+// Avatar pictures, and the avatar picker used on the Choose a Demo Person and
+// Profile pages.
+//
+// The team's original pages showed the avatars in a carousel that moved every
+// 5 seconds, and asked you to type the avatar's number. That's been replaced
+// with a group of radio buttons that shows every avatar with its name
+// (WCAG 2.2.2 Pause, Stop, Hide and 3.3.2 Labels or Instructions).
 
 import { AVATARS } from './data.js';
 
@@ -9,34 +14,31 @@ export function avatarSrc(number) {
   return `img/avatar${valid ? n : 1}.svg`;
 }
 
-export function renderCarousel(container, headingTag = 'h4') {
-  if (!container) return;
-  const items = AVATARS.map(
-    ({ number, description }, i) => `
-                        <div class="carousel-item${i === 0 ? ' active' : ''}">
-                            <img class="d-block w-50 ml-15" src="${avatarSrc(number)}" alt="${description}">
-                            <div class="carousel-caption d-none d-md-block">
-                                <${headingTag} class="card-heading-title">Avatar ${number}</${headingTag}>
-                            </div>
-                        </div>`,
+export function avatarName(number) {
+  return AVATARS.find((a) => a.number === Number(number))?.name ?? AVATARS[0].name;
+}
+
+// Returns the HTML for a required radio group. `selected` is the avatar number
+// to tick, if any.
+export function avatarPickerHtml(selected) {
+  const options = AVATARS.map(
+    ({ number, name }) => `
+                <div class="avatar-option">
+                    <input type="radio" name="image_no" id="avatar-${number}" value="${number}"${
+                      Number(selected) === number ? ' checked' : ''
+                    }${number === 1 ? ' required' : ''}>
+                    <label for="avatar-${number}">
+                        <img src="${avatarSrc(number)}" alt="" width="48" height="48">
+                        <span>${name}</span>
+                    </label>
+                </div>`,
   ).join('');
 
-  container.innerHTML = `
-            <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    ${items}
+  return `
+            <fieldset class="avatar-picker" data-required-message="Choose an avatar">
+                <legend class="form-label">Avatar</legend>
+                <div class="avatar-options">
+                    ${options}
                 </div>
-                <a class="carousel-control-prev" href="#carouselControls" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon tap-target" aria-hidden="true">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselControls" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon tap-target" aria-hidden="true">
-                        <i class="fas fa-chevron-right"></i>
-                    </span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>`;
+            </fieldset>`;
 }

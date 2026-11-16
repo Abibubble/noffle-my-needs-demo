@@ -47,45 +47,50 @@
                 </div>
                 <div class="container">
                     <div class="row form-area rounded mx-auto mb-2">
-                        <form id="new-noffle-form">
+                        <form id="new-noffle-form" novalidate>
+                            <p class="mb-4">Name, description and icon are required.</p>
                             <div class="form-group row mb-4">
-                                <div class="col-2 center-icon"><i class="fas fa-2x fa-sticky-note"></i></div>
-                                <label for="name" class="sr-only">Noffle Name</label>
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-sticky-note" aria-hidden="true"></i></div>
                                 <div class="col-10">
-                                    <input type="text" class="form-control" name="name" id="name" minlength="5" maxlength="15" placeholder="Noffle Name" required>
+                                    <label for="name" class="form-label">Noffle name</label>
+                                    <p id="name-hint" class="form-hint">5 to 15 characters, for example "Quiet space"</p>
+                                    <input type="text" class="form-control" name="name" id="name" minlength="5" maxlength="15" aria-describedby="name-hint" data-required-message="Enter a Noffle name" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
-                                <div class="col-2 center-icon"><i class="far fa-2x fa-comment-alt"></i></div>
-                                <label for="description" class="sr-only">Description</label>
+                                <div class="col-2 center-icon"><i class="far fa-2x fa-comment-alt" aria-hidden="true"></i></div>
                                 <div class="col-10">
-                                    <input id="description" name="description" placeholder="Description" class="form-control" type="text" minlength="3" maxlength="200" required>
+                                    <label for="description" class="form-label">Description</label>
+                                    <p id="description-hint" class="form-hint">What colleagues should know or do, for example "Please send me a message instead of calling"</p>
+                                    <input id="description" name="description" class="form-control" type="text" minlength="3" maxlength="200" aria-describedby="description-hint" data-required-message="Enter a description" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
-                                <p>To find an icon, please visit <a href="https://fontawesome.com/v5/search?m=free">Font Awesome</a>, search for your required icon, and enter the text between the " "</p>
-                                <div class="col-2 center-icon"><i class="fas fa-2x fa-icons"></i></div>
-                                <label for="icon" class="sr-only">Icon</label>
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-icons" aria-hidden="true"></i></div>
                                 <div class="col-10">
-                                    <input id="icon" name="icon" placeholder="Icon" type="text" class="form-control" minlength="2" maxlength="40" required>
+                                    <label for="icon" class="form-label">Icon</label>
+                                    <p id="icon-hint" class="form-hint">The class name of a free <a href="https://fontawesome.com/v5/search?m=free">Font Awesome 5 icon</a>, for example "fas fa-coffee"</p>
+                                    <input id="icon" name="icon" type="text" class="form-control" maxlength="40" pattern="(fas|far|fab) fa-[a-z0-9\-]+" aria-describedby="icon-hint" data-required-message="Enter an icon class name" data-pattern-message="Enter an icon class name like fas fa-coffee" autocomplete="off" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
-                                <div class="col-2 center-icon"><i class="fas fa-2x fa-star-half-alt"></i></div>
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-star-half-alt" aria-hidden="true"></i></div>
                                 <div class="col-10">
-                                    <input id="permanent" name="permanent" type="checkbox">
+                                    <input id="permanent" name="permanent" type="checkbox" aria-describedby="permanent-hint">
                                     <label for="permanent">Permanent</label>
+                                    <p id="permanent-hint" class="form-hint">Permanent Noffles stay set when someone switches person. Others are cleared.</p>
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <div class="col-2 center-icon"><i class="fas fa-2x fa-key"></i></div>
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-key" aria-hidden="true"></i></div>
                                 <div class="col-10">
-                                    <input id="private" name="private" type="checkbox">
-                                    <label for="private">Private as standard</label>
+                                    <input id="private" name="private" type="checkbox" aria-describedby="private-hint">
+                                    <label for="private">Private</label>
+                                    <p id="private-hint" class="form-hint">Only admins and the person who sets it can see a private Noffle.</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <button name="login" id="login" class="btn btn-green mt-3 tap-target" type="submit">Submit New Noffle</button>
+                                <button class="btn btn-green mt-3 tap-target" type="submit">Submit New Noffle</button>
                             </div>
                         </form>
                     </div>
