@@ -27,7 +27,7 @@ if (page) {
                                     <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
                                 </div>
                                 <div class="col-10">
-                                    <h3 class="card-heading-title">${esc(noffle.name)}</h3>
+                                    <h2 class="card-heading-title">${esc(noffle.name)}</h2>
                                 </div>
                             </div>
                             <hr>

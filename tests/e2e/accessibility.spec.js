@@ -85,3 +85,59 @@ test.describe('1.4.12 Text spacing', () => {
     expect(box.scrollHeight).toBeLessThanOrEqual(box.clientHeight + 1);
   });
 });
+
+test.describe('2.4.2 Page titles', () => {
+  test('every page has its own title', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    for (const { path, title } of PAGES) {
+      await page.goto(path);
+      await expect(page).toHaveTitle(title);
+    }
+    expect(new Set(PAGES.map((p) => p.title)).size).toBe(PAGES.length);
+  });
+});
+
+test.describe('1.3.1 and 2.4.6 Headings', () => {
+  for (const { path, name } of PAGES) {
+    test(`${name} has one h1, and heading levels don't skip`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      // Headings in closed pop-ups aren't on the page yet, so only count visible ones.
+      const levels = await page.evaluate(() =>
+        [...document.querySelectorAll('main :is(h1, h2, h3, h4, h5, h6)')]
+          .filter((h) => h.getClientRects().length > 0 && !h.closest('.modal'))
+          .map((h) => Number(h.tagName[1])),
+      );
+      expect(levels.filter((level) => level === 1)).toHaveLength(1);
+      expect(levels[0]).toBe(1);
+      levels.forEach((level, i) => {
+        if (i > 0) expect(level - levels[i - 1]).toBeLessThanOrEqual(1);
+      });
+    });
+  }
+
+  test('the navbar brand is not a heading', async ({ page }) => {
+    await page.goto('/index.html');
+    await expect(page.locator('.navbar-brand h1, .navbar-brand h2')).toHaveCount(0);
+  });
+});
+
+test.describe('2.4.1 Skip link', () => {
+  test('is the first thing you can tab to, and moves focus to the main content', async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/office.html');
+    await page.keyboard.press('Tab');
+    const skip = page.getByRole('link', { name: 'Skip to main content' });
+    await expect(skip).toBeFocused();
+    await expect(skip).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('main')).toBeFocused();
+    // The next Tab goes into the page, not back to the navbar.
+    await page.keyboard.press('Tab');
+    const inMain = await page.evaluate(() => document.querySelector('main').contains(document.activeElement));
+    expect(inMain).toBe(true);
+  });
+});

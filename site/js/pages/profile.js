@@ -29,7 +29,7 @@ if (page) {
                                 <div class="card-body ${cardColour(noffle)}">
                                     <div class="row card-title">
                                         <div class="col-2"><i class="${esc(noffle.icon)} fa-2x noffle-icon"></i></div>
-                                        <div class="col-9 offset-1"><h5>${esc(noffle.name)}</h5></div>
+                                        <div class="col-9 offset-1"><h3 class="h5">${esc(noffle.name)}</h3></div>
                                     </div>
                                     <hr>
                                     <p class="card-text">${esc(noffle.description)}</p>
@@ -55,10 +55,11 @@ if (page) {
   const canDelete = !me.is_admin && !me.protected;
 
   document.getElementById('profile').innerHTML = `
-    <h2 class="text-center">${esc(me.first_name)}'s Profile</h2>
+    <h1 class="text-center">${esc(me.first_name)}'s Profile</h1>
     <hr>
     <div class="row pb-5">
         <div class="col-12 col-md-5 p-4 profile-form-area rounded">
+            <h2 class="section-heading">Your Details</h2>
             <img class="avatar-profile" src="${avatarSrc(me.image_no)}" alt="Icon for ${esc(me.first_name)}">
             <div class="login-form profile-login-form rounded mx-auto mb-2">
                 <form id="update-user-form">
@@ -83,6 +84,7 @@ if (page) {
             </div>
         </div>
         <div class="col-12 col-md-6 offset-md-1 p-4 profile-form-area rounded">
+            <h2 class="section-heading">Your Noffles</h2>
             ${noffleCards}
         </div>
     </div>
@@ -107,7 +109,7 @@ if (page) {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="delete-modal-label">Remove This Demo Person</h5>
+                    <h2 class="modal-title" id="delete-modal-label">Remove This Demo Person</h2>
                     <button type="button" class="close tap-target" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-2x fa-times"></i></span>
                     </button>
@@ -124,7 +126,7 @@ if (page) {
         </div>
     </div>`;
 
-  renderCarousel(document.getElementById('avatar-carousel'), 'h4');
+  renderCarousel(document.getElementById('avatar-carousel'), 'h3');
 
   document.getElementById('update-user-form').addEventListener('submit', (event) => {
     event.preventDefault();

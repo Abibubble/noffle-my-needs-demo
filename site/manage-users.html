@@ -19,15 +19,18 @@
     <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
 
-    <title>Noffle My Needs</title>
+    <title>Manage Users | Noffle My Needs demo</title>
 </head>
 
 <body>
 
+    <!-- Skip link: lets keyboard users jump past the navbar -->
+    <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg" id="site-nav"></nav>
 
-    <main class="container mt-4">
+    <main class="container mt-4" id="main-content" tabindex="-1">
 
         <div id="demo-banner" class="demo-banner">
             <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
@@ -38,7 +41,7 @@
 
         <!-- Main content container -->
         <div>
-            <h2 class="text-center">Manage Users</h2>
+            <h1 class="text-center">Manage Users</h1>
             <hr>
             <div class="container">
                 <div class="row" id="user-list"></div>

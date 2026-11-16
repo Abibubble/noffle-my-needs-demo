@@ -19,15 +19,18 @@
     <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
 
-    <title>Noffle My Needs</title>
+    <title>Noffle My Needs demo</title>
 </head>
 
 <body>
 
+    <!-- Skip link: lets keyboard users jump past the navbar -->
+    <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg" id="site-nav"></nav>
 
-    <main class="container mt-4">
+    <main class="container mt-4" id="main-content" tabindex="-1">
 
         <div id="demo-banner" class="demo-banner">
             <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
@@ -40,8 +43,8 @@
         <div>
             <div class="container-fluid" id="hero-image">
                 <div class="hero-text-overlay text-center">
-                    <h2 class="hero-heading text-uppercase">Hello</h2>
-                    <h3 class="hero-text">Let's Make Our Day Beautiful...</h3>
+                    <h1 class="hero-heading text-uppercase"><span class="visually-hidden">Noffle My Needs: </span>Hello</h1>
+                    <p class="h3 hero-text">Let's Make Our Day Beautiful...</p>
                   </div>
             </div>
 

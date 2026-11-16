@@ -56,7 +56,7 @@ function renderNav(me) {
 
   nav.innerHTML = `
         <div class="container">
-            <a class="navbar-brand tap-target" href="index.html"><h1>Noffle My Needs</h1></a>
+            <a class="navbar-brand tap-target" href="index.html">Noffle My Needs</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">

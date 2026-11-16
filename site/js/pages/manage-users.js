@@ -43,7 +43,7 @@ if (page) {
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Modify user ${esc(user.first_name)}</h4>
+                                            <h2 class="modal-title">Modify user ${esc(user.first_name)}</h2>
                                             <button type="button" class="close tap-target" aria-label="Close" data-close-modal="modal-${id}">
                                                 <span aria-hidden="true"><i class="fas fa-2x fa-times"></i></span>
                                             </button>
@@ -89,9 +89,9 @@ if (page) {
                     <div class="card user-card border-dark pt-1">
                         <img class="card-img-top" src="${avatarSrc(user.image_no)}" alt="Icon for ${esc(user.first_name)}">
                         <div class="card-header">
-                            <h3 class="card-title card-heading-title">
+                            <h2 class="card-title card-heading-title">
                                 Name: ${esc(user.first_name)} ${esc(user.last_name)} (${esc(user.pronouns)})
-                            </h3>
+                            </h2>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">

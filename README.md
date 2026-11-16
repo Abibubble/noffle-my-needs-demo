@@ -84,6 +84,9 @@ section at the end of `site/css/styles.css`, and each has a test in
 | --- | --- | --- |
 | 1.4.10 Reflow | At 400% zoom the fixed navbar and footer covered most of the screen, and the open menu ran off it | The footer sits at the end of the page. The navbar scrolls with the page, and only stays at the top on large screens |
 | 1.4.12 Text Spacing | With wider text spacing, the hero text spilled out of its box | The box grows with its text |
+| 2.4.2 Page Titled | Every page had the same title | Each page has its own title, like "Office \| Noffle My Needs demo" |
+| 1.3.1 Info and Relationships, 2.4.6 Headings and Labels | The site name in the navbar was the h1 on every page, and some pages skipped heading levels | Each page's own heading is its h1, and heading levels don't skip |
+| 2.4.1 Bypass Blocks | There was no quick way for keyboard users to get past the navbar | A "Skip to main content" link appears when you first press Tab |
 
 ## Run it locally
 

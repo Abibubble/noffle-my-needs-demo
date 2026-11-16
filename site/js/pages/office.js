@@ -27,9 +27,9 @@ if (page) {
                                 </div>
                                 <div class="row">
                                     <div class="col-12 my-2">
-                                        <h3 class="card-heading-title">
+                                        <h2 class="card-heading-title">
                                             ${name}
-                                        </h3>
+                                        </h2>
                                         <p class="fw-bold fst-italic">(${esc(user.pronouns)})</p>
                                     </div>
                                 </div>
@@ -53,9 +53,9 @@ if (page) {
                     <div class="modal-dialog" role="document">
                         <div class="modal-content ${colour}">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="user-modal-${id}-label">
+                                <h2 class="modal-title" id="user-modal-${id}-label">
                                     ${name} (${esc(user.pronouns)})
-                                </h4>
+                                </h2>
                                 <button type="button" class="close btn-close-modal tap-target" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true"><i class="fas fa-2x fa-times"></i></span>
                                 </button>
@@ -63,9 +63,9 @@ if (page) {
                             <div class="modal-body">
                                 ${
                                   hasPanic(user)
-                                    ? `<h5 class="text-uppercase">
+                                    ? `<p class="h5 text-uppercase">
                                         <b>${esc(user.first_name)} is in need of urgent help!</b>
-                                    </h5>`
+                                    </p>`
                                     : ''
                                 }
                                 <b>Noffles:</b>
@@ -73,10 +73,10 @@ if (page) {
                                   .map(
                                     (noffle) => `
                                     <div class="card mt-2 p-3 border-black">
-                                        <h6>
+                                        <h3 class="h6">
                                             <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
                                             <b>${esc(noffle.name)}</b>
-                                        </h6>
+                                        </h3>
                                         <p>${esc(noffle.description)}</p>
                                     </div>`,
                                   )

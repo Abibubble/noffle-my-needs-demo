@@ -19,15 +19,18 @@
     <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
 
-    <title>Noffle My Needs</title>
+    <title>Choose a Demo Person | Noffle My Needs demo</title>
 </head>
 
 <body>
 
+    <!-- Skip link: lets keyboard users jump past the navbar -->
+    <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg" id="site-nav"></nav>
 
-    <main class="container mt-4">
+    <main class="container mt-4" id="main-content" tabindex="-1">
 
         <div id="demo-banner" class="demo-banner">
             <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
@@ -40,7 +43,7 @@
         <div>
             <!-- Replaces the original Log In page. There are no accounts in the demo. -->
             <section class="container" aria-labelledby="choose-heading">
-                <h2 id="choose-heading" class="text-center mb-4">Choose a Demo Person</h2>
+                <h1 id="choose-heading" class="text-center mb-4">Choose a Demo Person</h1>
                 <div class="choose-intro mb-4">
                     <p>
                         The original site had real accounts with usernames and passwords. This demo doesn't.
