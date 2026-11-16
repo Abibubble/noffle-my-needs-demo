@@ -136,7 +136,7 @@ tests/e2e/            Playwright user journey and accessibility tests
 
 ### The A11y Allies team
 
-- [Abi Harrison](https://github.com/Abibubble)
+- [Abi Harrison-Nye](https://github.com/Abibubble)
 - [Andrew Dempsey](https://github.com/andrewdempsey2018)
 - [Carla Buongiorno](https://github.com/CarlaBuongiorno)
 - [Henrique Peroni](https://github.com/Henriqueperoni)

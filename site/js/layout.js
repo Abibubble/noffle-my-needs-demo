@@ -7,7 +7,7 @@ import { currentPerson, fullName, switchOut } from './store.js';
 export const ORIGINAL_REPO = 'https://github.com/Abibubble/noffle-my-needs';
 
 const TEAM = [
-  { name: 'Abi Harrison', github: 'https://github.com/Abibubble' },
+  { name: 'Abi Harrison-Nye', github: 'https://github.com/Abibubble' },
   { name: 'Andrew Dempsey', github: 'https://github.com/andrewdempsey2018' },
   { name: 'Carla Buongiorno', github: 'https://github.com/CarlaBuongiorno' },
   { name: 'Henrique Peroni', github: 'https://github.com/Henriqueperoni' },

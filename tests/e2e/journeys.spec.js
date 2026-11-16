@@ -12,7 +12,7 @@ test.describe('landing page', () => {
     await expect(about).toContainText('September 2021');
     await expect(about).toContainText('updated since the hackathon');
     for (const name of [
-      'Abi Harrison',
+      'Abi Harrison-Nye',
       'Andrew Dempsey',
       'Carla Buongiorno',
       'Henrique Peroni',
