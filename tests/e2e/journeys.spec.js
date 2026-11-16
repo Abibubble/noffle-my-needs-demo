@@ -290,3 +290,26 @@ test.describe('every page', () => {
     await expect(page.locator('#site-footer')).toContainText('A11y Allies');
   });
 });
+
+test.describe('layout', () => {
+  test('on a short page, the footer sits at the bottom of the screen', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 1400 });
+    await page.goto('/missing-page.html');
+    const { footerBottom, viewport } = await page.evaluate(() => ({
+      footerBottom: document.querySelector('footer').getBoundingClientRect().bottom,
+      viewport: window.innerHeight,
+    }));
+    expect(Math.round(footerBottom)).toBe(viewport);
+  });
+
+  test('on a long page, the footer comes after the content', async ({ page }) => {
+    await page.goto('/index.html');
+    const { footerTop, mainBottom, viewport } = await page.evaluate(() => ({
+      footerTop: document.querySelector('footer').getBoundingClientRect().top,
+      mainBottom: document.querySelector('main').getBoundingClientRect().bottom,
+      viewport: window.innerHeight,
+    }));
+    expect(footerTop).toBeGreaterThanOrEqual(mainBottom);
+    expect(footerTop).toBeGreaterThan(viewport);
+  });
+});

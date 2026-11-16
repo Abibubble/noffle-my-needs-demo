@@ -480,6 +480,23 @@ footer {
     padding: 10px 0;
 }
 
+/* On short pages, the main content stretches to fill the spare height, so the footer
+   still sits at the bottom of the screen. It isn't fixed there, so it never covers
+   anything when you zoom in. */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
 /* Now the footer is part of the page, its Bootstrap row's negative margins made the
    page 12px wider than the screen. */
 footer > .row {
