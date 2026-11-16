@@ -3,6 +3,10 @@
 // Each card was a link with href="#" acting as a button. Now the person's name is a
 // real button (so Space and Enter both work), and Bootstrap's stretched-link class
 // keeps the whole card clickable (WCAG 4.1.2 Name, Role, Value).
+//
+// The noffles on each card were icons only, and the panic button was only shown
+// by a red card. Now each icon has a text name for screen readers, and the panic
+// state has a visible text label (WCAG 1.1.1 Non-text Content, 1.4.1 Use of Colour).
 
 import { avatarSrc } from '../avatars.js';
 import { esc, setupPage } from '../layout.js';
@@ -26,7 +30,7 @@ if (page) {
                             <div class="card-body ${colour} office-card-body">
                                 <div class="row">
                                     <div class="col-12 mp-0 my-2">
-                                        <img class="avatar-office img-fluid" src="${avatarSrc(user.image_no)}" alt="Icon for ${esc(user.first_name)}">
+                                        <img class="avatar-office img-fluid" src="${avatarSrc(user.image_no)}" alt="">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -35,18 +39,28 @@ if (page) {
                                             <button type="button" class="card-name-button stretched-link" data-bs-toggle="modal" data-bs-target="#user-modal-${id}" aria-haspopup="dialog">${name}</button>
                                         </h2>
                                         <p class="fw-bold fst-italic">(${esc(user.pronouns)})</p>
+                                        ${
+                                          panic
+                                            ? `<p class="panic-flag"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> Needs urgent help</p>`
+                                            : ''
+                                        }
                                     </div>
                                 </div>
-                                <div class="row">
+                                ${
+                                  noffles.length
+                                    ? `<ul class="row list-unstyled noffle-icon-list" aria-label="Noffles">
                                     ${noffles
                                       .map(
                                         (noffle) => `
-                                        <div class="col-2 m-1 mt-2">
-                                            <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
-                                        </div>`,
+                                        <li class="col-2 m-1 mt-2">
+                                            <i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i>
+                                            <span class="visually-hidden">${esc(noffle.name)}</span>
+                                        </li>`,
                                       )
                                       .join('')}
-                                </div>
+                                </ul>`
+                                    : ''
+                                }
                             </div>
                         </div>
                 </div>
@@ -72,12 +86,13 @@ if (page) {
                                     : ''
                                 }
                                 <b>Noffles:</b>
+                                ${noffles.length ? '' : '<p>No Noffles to show.</p>'}
                                 ${noffles
                                   .map(
                                     (noffle) => `
                                     <div class="card mt-2 p-3 border-black">
                                         <h3 class="h6">
-                                            <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
+                                            <i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i>
                                             <b>${esc(noffle.name)}</b>
                                         </h3>
                                         <p>${esc(noffle.description)}</p>

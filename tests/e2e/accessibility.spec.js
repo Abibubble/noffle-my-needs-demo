@@ -468,3 +468,57 @@ test.describe('Links', () => {
     }
   });
 });
+
+test.describe('1.1.1 and 1.4.1 Office cards', () => {
+  test('each noffle icon has a text name', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    const mei = page.locator('.office-card', { hasText: 'Mei Lin' });
+    const list = mei.getByRole('list', { name: 'Noffles' });
+    await expect(list.getByRole('listitem')).toHaveText(['I use BSL', 'Quiet space']);
+  });
+
+  test('the panic state has a text label, not just a red card', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/office.html');
+    const jordan = page.locator('.office-card', { hasText: 'Jordan Ellis' });
+    await expect(jordan.getByText('Needs urgent help')).toBeVisible();
+    const tom = page.locator('.office-card', { hasText: 'Tom Brennan' });
+    await expect(tom.getByText('Needs urgent help')).toHaveCount(0);
+  });
+
+  test("non-admins don't see the panic label for someone else", async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    const jordan = page.locator('.office-card', { hasText: 'Jordan Ellis' });
+    await expect(jordan.getByText('Needs urgent help')).toHaveCount(0);
+  });
+
+  for (const path of ['/office.html', '/manage-users.html']) {
+    test(`${path}: avatars next to a name are decorative`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      const alts = await page.locator('main .card img').evaluateAll((imgs) =>
+        imgs.map((img) => img.getAttribute('alt')),
+      );
+      expect(alts.length).toBeGreaterThan(0);
+      expect(alts.every((alt) => alt === '')).toBe(true);
+    });
+  }
+});
+
+test.describe('1.1.1 Decorative icons', () => {
+  for (const { path, name } of PAGES) {
+    test(`${name}: every Font Awesome icon is hidden from screen readers`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      const exposed = await page.evaluate(() =>
+        [...document.querySelectorAll('i[class*="fa-"]')]
+          .filter((icon) => !icon.closest('[aria-hidden="true"]:not(.modal)'))
+          .map((icon) => icon.className),
+      );
+      expect(exposed).toEqual([]);
+    });
+  }
+});

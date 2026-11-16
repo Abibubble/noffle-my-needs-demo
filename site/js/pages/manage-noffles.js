@@ -28,7 +28,7 @@ if (page) {
                         <div class="card-body ${cardColour(noffle)}">
                             <div class="row card-title">
                                 <div class="col-2">
-                                    <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
+                                    <i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i>
                                 </div>
                                 <div class="col-10">
                                     <h2 class="card-heading-title">${esc(noffle.name)}</h2>
@@ -36,7 +36,7 @@ if (page) {
                             </div>
                             <hr>
                             <p class="card-text">${esc(noffle.description)}</p>
-                            <i class="fas fa-exclamation-circle"></i>
+                            <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
                             <p class="card-text">This Noffle is ${noffle.private ? 'private' : 'public'}</p>
                             <div>
                                 <button type="button" class="btn btn-red btn-sm w-100 mt-2 pt-2 tap-target" data-bs-toggle="modal" data-bs-target="#delete-noffle-modal" data-delete-noffle="${esc(noffle.id)}" aria-haspopup="dialog" aria-label="Delete Noffle: ${esc(noffle.name)}">

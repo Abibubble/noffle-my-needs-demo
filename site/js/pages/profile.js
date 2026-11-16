@@ -29,7 +29,7 @@ if (page) {
                             <div class="card noffle-card">
                                 <div class="card-body ${cardColour(noffle)}">
                                     <div class="row card-title">
-                                        <div class="col-2"><i class="${esc(noffle.icon)} fa-2x noffle-icon"></i></div>
+                                        <div class="col-2"><i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i></div>
                                         <div class="col-9 offset-1"><h3 class="h5">${esc(noffle.name)}</h3></div>
                                     </div>
                                     <hr>

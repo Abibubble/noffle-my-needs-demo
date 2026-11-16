@@ -98,6 +98,8 @@ section at the end of `site/css/styles.css`, and each has a test in
 | 3.3.4 Error Prevention | "Delete Noffle" deleted straight away | Deleting a Noffle or a user asks you to confirm first |
 | 1.4.1 Use of Colour | Links in text weren't underlined, so they looked like the text around them | Links are underlined |
 | Best practice | Footer links opened a new tab without warning | They open in the same tab. The one link that opens a new tab says so |
+| 1.1.1 Non-text Content | Office cards showed each person's Noffles as icons only, with no text for screen readers. Decorative icons weren't hidden from screen readers | Each Noffle icon has a text name for screen readers. Decorative icons and avatars are hidden from them |
+| 1.4.1 Use of Colour | The panic button was only shown by a pale red card | Cards also show a "Needs urgent help" label (to admins and the person who pressed it) |
 | 2.4.7 Focus Visible, 1.4.11 Non-text Contrast | Keyboard focus was faint on the navbar links and missing on the buttons and the menu button. Form field edges turned light grey on hover and focus | Everything you can tab to gets a 3px black outline with a white gap. Form field edges stay black |
 
 ## Run it locally

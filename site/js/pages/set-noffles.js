@@ -22,10 +22,10 @@ function card(noffle, isSet) {
                             <span class="card-body h-100 d-block ${cardColour(noffle)}">
                                 <span class="row card-title">
                                     <span class="row">
-                                        <i class="${isSet ? 'fas fa-check-square' : 'far fa-square'} fa-2x mb-2 d-flex justify-content-end"></i>
+                                        <i class="${isSet ? 'fas fa-check-square' : 'far fa-square'} fa-2x mb-2 d-flex justify-content-end" aria-hidden="true"></i>
                                     </span>
                                     <span class="col-2">
-                                        <i class="${esc(noffle.icon)} fa-2x noffle-icon"></i>
+                                        <i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i>
                                     </span>
                                     <span class="col-10">
                                         <span class="h5 d-block">${esc(noffle.name)}</span>

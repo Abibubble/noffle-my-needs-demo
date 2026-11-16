@@ -107,7 +107,7 @@ if (page) {
       return `
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
                     <div class="card user-card border-dark pt-1">
-                        <img class="card-img-top" src="${avatarSrc(user.image_no)}" alt="Icon for ${esc(user.first_name)}">
+                        <img class="card-img-top" src="${avatarSrc(user.image_no)}" alt="">
                         <div class="card-header">
                             <h2 class="card-title card-heading-title">
                                 Name: ${esc(user.first_name)} ${esc(user.last_name)} (${esc(user.pronouns)})
@@ -122,7 +122,7 @@ if (page) {
                                           .map(
                                             (noffle) => `
                                         <li class="mb-2">
-                                            <i class="${esc(noffle.icon)}"></i>
+                                            <i class="${esc(noffle.icon)}" aria-hidden="true"></i>
                                             <strong>${esc(noffle.name)}</strong> - ${esc(noffle.description)}
                                         </li>`,
                                           )
