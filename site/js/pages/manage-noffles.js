@@ -1,8 +1,12 @@
 // Replaces the original /manage_noffles and /delete_noffle routes.
+//
+// "Delete Noffle" was a link with href="#" acting as a button, and it deleted
+// straight away. Now it's a real button that asks you to confirm first
+// (WCAG 4.1.2 Name, Role, Value and 3.3.4 Error Prevention).
 
 import { addFlash, esc, go, setupPage } from '../layout.js';
 import { PANIC_ID } from '../data.js';
-import { deleteNoffle } from '../store.js';
+import { deleteNoffle, findNoffle } from '../store.js';
 
 const page = setupPage({ requires: 'admin' });
 
@@ -35,9 +39,9 @@ if (page) {
                             <i class="fas fa-exclamation-circle"></i>
                             <p class="card-text">This Noffle is ${noffle.private ? 'private' : 'public'}</p>
                             <div>
-                                <a role="button" class="btn btn-red btn-sm w-100 mt-2 pt-2 tap-target" href="#" data-delete-noffle="${esc(noffle.id)}">
+                                <button type="button" class="btn btn-red btn-sm w-100 mt-2 pt-2 tap-target" data-bs-toggle="modal" data-bs-target="#delete-noffle-modal" data-delete-noffle="${esc(noffle.id)}" aria-haspopup="dialog" aria-label="Delete Noffle: ${esc(noffle.name)}">
                                     Delete Noffle
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -45,11 +49,24 @@ if (page) {
     )
     .join('');
 
-  list.addEventListener('click', (event) => {
-    const link = event.target.closest('[data-delete-noffle]');
-    if (!link) return;
-    event.preventDefault();
-    deleteNoffle(state, link.dataset.deleteNoffle);
+  const modal = document.getElementById('delete-noffle-modal');
+  let chosenId = null;
+
+  // Fill in the pop-up with the Noffle you chose, and how many people it affects.
+  modal.addEventListener('show.bs.modal', (event) => {
+    chosenId = event.relatedTarget?.dataset.deleteNoffle ?? null;
+    const noffle = findNoffle(state, chosenId);
+    if (!noffle) return;
+    const count = state.people.filter((p) => p.noffles.includes(noffle.id)).length;
+    const people = count === 1 ? '1 person' : `${count} people`;
+    modal.querySelector('#delete-noffle-title').textContent = `Delete "${noffle.name}"?`;
+    modal.querySelector('#delete-noffle-detail').textContent =
+      `This removes it from ${people} who set it. You can't undo this, except by resetting the whole demo.`;
+  });
+
+  document.getElementById('confirm-delete-noffle').addEventListener('click', () => {
+    if (!chosenId) return;
+    deleteNoffle(state, chosenId);
     save();
     addFlash('Noffle Successfully Deleted');
     go('manage-noffles.html');

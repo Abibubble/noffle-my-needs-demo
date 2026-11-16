@@ -108,7 +108,7 @@ function renderFooter() {
   const people = TEAM.map(
     ({ name, github }) => `
             <div class="col-sm-6 col-md-2 text-center">
-                <a href="${github}" class="tap-target" rel="noopener" target="_blank">${name}</a><br>
+                <a href="${github}" class="tap-target">${name}</a><br>
             </div>`,
   ).join('');
   footer.innerHTML = `

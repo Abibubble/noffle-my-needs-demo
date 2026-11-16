@@ -46,7 +46,7 @@ if (page) {
                     <div class="col-12 mb-5">
                         <h3 class="text-danger">You haven't got any Noffles set!</h3>
                         <p>Set your Noffles now!</p>
-                        <a role="button" href="set-noffles.html" class="btn btn-close-modal tap-target">Set my Noffles</a>
+                        <a href="set-noffles.html" class="btn btn-close-modal tap-target">Set my Noffles</a>
                     </div>
                 </div>`;
 
@@ -87,7 +87,7 @@ if (page) {
         ? `
     <div class="row">
         <div class="col-12 text-center">
-            <button type="button" class="btn btn-primary btn-delete mt-5 tap-target" data-bs-toggle="modal" data-bs-target="#delete-modal">
+            <button type="button" class="btn btn-primary btn-delete mt-5 tap-target" data-bs-toggle="modal" data-bs-target="#delete-modal" aria-haspopup="dialog">
                 Remove This Demo Person
             </button>
         </div>
@@ -96,8 +96,8 @@ if (page) {
     }
 
     <!-- Modal -->
-    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title" id="delete-modal-label">Remove This Demo Person</h2>
@@ -111,7 +111,7 @@ if (page) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-close-modal tap-target" data-bs-dismiss="modal">Close</button>
-                    <a href="#" id="delete-account" role="button" class="btn btn-primary btn-delete tap-target">Remove Person</a>
+                    <button type="button" id="delete-account" class="btn btn-primary btn-delete tap-target">Remove Person</button>
                 </div>
             </div>
         </div>
@@ -128,8 +128,7 @@ if (page) {
     go('profile.html');
   });
 
-  document.getElementById('delete-account').addEventListener('click', (event) => {
-    event.preventDefault();
+  document.getElementById('delete-account').addEventListener('click', () => {
     if (!canDelete) return;
     deletePerson(state, me.id);
     save();

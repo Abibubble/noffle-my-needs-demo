@@ -36,13 +36,11 @@ jobs:
           path: test-results
           retention-days: 7
 
-  # The axe-core WCAG 2.1 AA scans. These don't block deployment yet,
-  # because the accessibility fixes are still in progress.
-  # Remove continue-on-error and add this job to deploy's `needs` once they pass.
+  # The accessibility tests: axe-core WCAG 2.1 AA scans, plus checks for
+  # zoom, focus, headings, forms and pop-ups. The site only deploys if they pass.
   accessibility:
-    name: Accessibility scans (axe-core, WCAG 2.1 AA)
+    name: Accessibility tests (WCAG 2.1 AA)
     runs-on: ubuntu-24.04
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -57,7 +55,7 @@ jobs:
   build:
     name: Build Pages artifact
     if: github.event_name != 'pull_request'
-    needs: [test]
+    needs: [test, accessibility]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7

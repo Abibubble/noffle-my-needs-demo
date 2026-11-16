@@ -634,12 +634,6 @@ summary:focus-visible,
     border-color: black !important;
 }
 
-/* The Office cards are links around a block, so make the link a block too. Then the
-   focus outline goes neatly round the whole card. */
-a:has(> .office-card) {
-    display: block;
-}
-
 /* ----------------------------------------------------------------------------------- S2, M5, M9: Form labels, hints and errors (3.3.1, 3.3.2) */
 
 /* The labels were hidden, so the placeholder was the only visible label, and it
@@ -707,4 +701,50 @@ a:has(> .office-card) {
 .avatar-option:has(input:checked) {
     border-color: black;
     background-color: var(--pastel-green);
+}
+
+/* ----------------------------------------------------------------------------------- S9: Links (1.4.1) */
+
+/* The team's CSS took the underline off every link, so links in text looked the same
+   as the words around them. Now every link is underlined, except the navbar and
+   links styled as buttons. */
+a:not(.btn):not(.nav-link):not(.navbar-brand) {
+    text-decoration: underline !important;
+}
+
+/* ----------------------------------------------------------------------------------- S7: Office cards (4.1.2) */
+
+/* Each card was a link acting as a button. Now the person's name is a real button.
+   Bootstrap's stretched-link class makes the whole card clickable, as before. */
+.office-card {
+    position: relative;
+}
+
+.card-name-button {
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+}
+
+/* ----------------------------------------------------------------------------------- Pop-up close buttons */
+
+/* The team's close buttons used Bootstrap 4's "close" class, which Bootstrap 5 doesn't
+   style, so the X sat right next to the title. Now it sits on the right. */
+.modal-header .close {
+    margin-left: auto;
+    color: black;
+    background-color: var(--pastel-blue);
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+/* The "Delete user" check inside the Modify User pop-up */
+.delete-confirm {
+    padding: 10px;
+    background-color: var(--pastel-red);
+    border: 2px solid black;
+    border-radius: 5px;
 }

@@ -46,12 +46,33 @@
             <div class="container">
                 <div class="row">
                     <div class="col-6 offset-3">
-                        <a role="button" class="btn btn-green fw-bold pt-2 w-100 mb-4 tap-target" href="new-noffle.html">
+                        <a class="btn btn-green fw-bold pt-2 w-100 mb-4 tap-target" href="new-noffle.html">
                             Add New Noffle
                         </a>
                     </div>
                 </div>
                 <div class="row" id="noffle-list"></div>
+            </div>
+
+            <!-- Asks before deleting a Noffle, as it can't be undone (WCAG 3.3.4) -->
+            <div class="modal fade" id="delete-noffle-modal" tabindex="-1" aria-labelledby="delete-noffle-title" aria-describedby="delete-noffle-detail" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="delete-noffle-title">Delete this Noffle?</h2>
+                            <button type="button" class="close tap-target" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-2x fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="delete-noffle-detail"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-blue tap-target" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-red tap-target" id="confirm-delete-noffle">Delete Noffle</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

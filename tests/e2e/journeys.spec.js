@@ -190,7 +190,7 @@ test.describe('as an admin', () => {
   test('adding and deleting a noffle', async ({ page }) => {
     await chooseAs(page, 'Alex Morgan');
     await page.goto('/manage-noffles.html');
-    await page.getByRole('button', { name: 'Add New Noffle' }).click();
+    await page.getByRole('link', { name: 'Add New Noffle' }).click();
     await expect(page).toHaveURL(/new-noffle\.html$/);
     await page.locator('#name').fill('Standing desk');
     await page.locator('#description').fill('I need a standing desk today');
@@ -201,7 +201,10 @@ test.describe('as an admin', () => {
     await expect(page.locator('#flash')).toContainText('Noffle Standing desk has been added');
     const card = page.locator('.noffle-card', { hasText: 'Standing desk' });
     await expect(card).toBeVisible();
-    await card.getByRole('button', { name: 'Delete Noffle' }).click();
+    await card.getByRole('button', { name: /^Delete Noffle/ }).click();
+    const confirm = page.getByRole('dialog', { name: 'Delete "Standing desk"?' });
+    await expect(confirm).toBeVisible();
+    await confirm.getByRole('button', { name: 'Delete Noffle' }).click();
     await expect(page.locator('#flash')).toContainText('Noffle Successfully Deleted');
     await expect(page.locator('.noffle-card', { hasText: 'Standing desk' })).toHaveCount(0);
   });
@@ -210,11 +213,11 @@ test.describe('as an admin', () => {
     await chooseAs(page, 'Alex Morgan');
     await page.goto('/manage-users.html');
     const sam = page.locator('.user-card', { hasText: 'Sam Okafor' });
-    await sam.getByRole('button', { name: 'Make user admin' }).click();
+    await sam.getByRole('button', { name: /^Make user admin/ }).click();
     await expect(page.locator('#flash')).toContainText('User Admin Rights Added');
     await expect(
       page.locator('.user-card', { hasText: 'Sam Okafor' }).getByRole('button', {
-        name: 'Remove admin rights',
+        name: /^Remove admin rights/,
       }),
     ).toBeVisible();
   });

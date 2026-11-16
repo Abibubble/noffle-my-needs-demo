@@ -93,6 +93,11 @@ section at the end of `site/css/styles.css`, and each has a test in
 | 4.1.1 Parsing, 1.3.1 Info and Relationships | On Manage Users, every "First Name" label pointed to the first user's field. On Profile, the "Private" checkboxes shared an id and didn't save anything | Every field has its own id. Profile says in text whether each Noffle is private |
 | 1.3.5 Identify Input Purpose | Name fields didn't say what they were for | They use `autocomplete="given-name"` and `"family-name"` |
 | 3.3.1 Error Identification, 3.3.3 Error Suggestion | Errors were the browser's own pop-ups. A Noffle name that already existed sent you to another page and lost what you'd typed | Errors show in text next to the field, say how to fix it, and keep what you typed |
+| 4.1.2 Name, Role, Value | Office cards, "Delete Noffle", "Make user admin" and "Delete User" were links acting as buttons, so the Space key didn't work | They're real buttons. Links that go to another page are plain links |
+| 2.4.3 Focus Order | The "Modify User" pop-up didn't move focus into it, and Escape didn't close it | It's a Bootstrap modal, like the Office pop-ups |
+| 3.3.4 Error Prevention | "Delete Noffle" deleted straight away | Deleting a Noffle or a user asks you to confirm first |
+| 1.4.1 Use of Colour | Links in text weren't underlined, so they looked like the text around them | Links are underlined |
+| Best practice | Footer links opened a new tab without warning | They open in the same tab. The one link that opens a new tab says so |
 | 2.4.7 Focus Visible, 1.4.11 Non-text Contrast | Keyboard focus was faint on the navbar links and missing on the buttons and the menu button. Form field edges turned light grey on hover and focus | Everything you can tab to gets a 3px black outline with a white gap. Form field edges stay black |
 
 ## Run it locally
@@ -127,8 +132,8 @@ Playwright starts the site on port 4175 for you.
 
 ## Deployment
 
-Every push to `main` runs the tests, then deploys the `site` folder to GitHub Pages, using
-`.github/workflows/deploy.yml`.
+Every push to `main` runs the unit, user journey and accessibility tests. If they all pass, it
+deploys the `site` folder to GitHub Pages, using `.github/workflows/deploy.yml`.
 
 To set it up in a fork, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
 

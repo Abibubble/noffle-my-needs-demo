@@ -356,3 +356,115 @@ test.describe('3.3.2 Instructions match the page', () => {
     );
   });
 });
+
+test.describe('4.1.2 Real buttons and links', () => {
+  for (const { path, name } of PAGES) {
+    test(`${name} has no links pretending to be buttons`, async ({ page }) => {
+      await chooseAs(page, 'Alex Morgan');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      const fakes = await page.evaluate(() =>
+        [...document.querySelectorAll('a[role="button"], a[href="#"], a[type="button"]')].map(
+          (a) => a.textContent.trim().slice(0, 40),
+        ),
+      );
+      expect(fakes).toEqual([]);
+    });
+  }
+
+  test('an Office card opens with the Space key', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    await page.getByRole('button', { name: 'Tom Brennan' }).focus();
+    await page.keyboard.press('Space');
+    await expect(page.getByRole('dialog', { name: /Tom Brennan/ })).toBeVisible();
+  });
+
+  test('the person name on each Office card is still a heading', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    await expect(page.getByRole('heading', { level: 2, name: 'Tom Brennan' })).toBeVisible();
+  });
+
+  test('a whole Office card is still clickable', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    // Click near the bottom of the card, away from the name.
+    const card = page.locator('.office-card', { hasText: 'Tom Brennan' });
+    const box = await card.boundingBox();
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height - 10);
+    await expect(page.getByRole('dialog', { name: /Tom Brennan/ })).toBeVisible();
+  });
+});
+
+test.describe('2.4.3 Modify User pop-up', () => {
+  test('moves focus into the pop-up, closes with Escape, and returns focus', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/manage-users.html');
+    const trigger = page.getByRole('button', { name: 'Modify User: Sam Okafor' });
+    await trigger.click();
+    const dialog = page.getByRole('dialog', { name: 'Modify user Sam' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute('aria-modal', 'true');
+    // Bootstrap moves focus in after the pop-up's fade-in finishes.
+    await expect.poll(() => dialog.evaluate((el) => el.contains(document.activeElement))).toBe(true);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
+});
+
+test.describe('3.3.4 Deleting asks first', () => {
+  test('Delete Noffle asks before deleting, and Cancel keeps the Noffle', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/manage-noffles.html');
+    await page.getByRole('button', { name: 'Delete Noffle: Please speak up' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Delete "Please speak up"?' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAccessibleDescription(/This removes it from 2 people/);
+    await dialog.getByRole('button', { name: 'Cancel' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(page.locator('.noffle-card', { hasText: 'Please speak up' })).toHaveCount(1);
+  });
+
+  test('Delete User asks before deleting', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/manage-users.html');
+    await page.getByRole('button', { name: 'Modify User: Tom Brennan' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Modify user Tom' });
+    await dialog.getByRole('button', { name: 'Delete User' }).click();
+    await expect(dialog.locator('#confirm-delete-text-tom')).toBeFocused();
+    await expect(dialog.getByText('Delete Tom Brennan?')).toBeVisible();
+    await dialog.getByRole('button', { name: 'Cancel' }).click();
+    await expect(dialog.getByText('Delete Tom Brennan?')).toBeHidden();
+    await dialog.getByRole('button', { name: 'Delete User' }).click();
+    await dialog.getByRole('button', { name: 'Yes, delete Tom Brennan' }).click();
+    await expect(page.locator('#flash')).toContainText('User Successfully Deleted');
+    await expect(page.locator('.user-card', { hasText: 'Tom Brennan' })).toHaveCount(0);
+  });
+});
+
+test.describe('Links', () => {
+  test('1.4.1 links in the page are underlined', async ({ page }) => {
+    await page.goto('/index.html');
+    const notUnderlined = await page.evaluate(() =>
+      [...document.querySelectorAll('main a:not(.btn), footer a')]
+        .filter((a) => !getComputedStyle(a).textDecorationLine.includes('underline'))
+        .map((a) => a.textContent.trim()),
+    );
+    expect(notUnderlined).toEqual([]);
+  });
+
+  test('links that open a new tab say so', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    for (const { path } of PAGES) {
+      await page.goto(path);
+      const unwarned = await page.evaluate(() =>
+        [...document.querySelectorAll('a[target="_blank"]')]
+          .filter((a) => !a.textContent.includes('opens in a new tab'))
+          .map((a) => a.textContent.trim()),
+      );
+      expect(unwarned, path).toEqual([]);
+    }
+  });
+});

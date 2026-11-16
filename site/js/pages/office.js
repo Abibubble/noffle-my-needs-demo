@@ -1,4 +1,8 @@
 // Replaces the original /office route and office.html template.
+//
+// Each card was a link with href="#" acting as a button. Now the person's name is a
+// real button (so Space and Enter both work), and Bootstrap's stretched-link class
+// keeps the whole card clickable (WCAG 4.1.2 Name, Role, Value).
 
 import { avatarSrc } from '../avatars.js';
 import { esc, setupPage } from '../layout.js';
@@ -18,7 +22,6 @@ if (page) {
       const name = `${esc(user.first_name)} ${esc(user.last_name)}`;
       return `
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <a href="#" role="button" data-bs-toggle="modal" data-bs-target="#user-modal-${id}">
                         <div class="card office-card">
                             <div class="card-body ${colour} office-card-body">
                                 <div class="row">
@@ -29,7 +32,7 @@ if (page) {
                                 <div class="row">
                                     <div class="col-12 my-2">
                                         <h2 class="card-heading-title">
-                                            ${name}
+                                            <button type="button" class="card-name-button stretched-link" data-bs-toggle="modal" data-bs-target="#user-modal-${id}" aria-haspopup="dialog">${name}</button>
                                         </h2>
                                         <p class="fw-bold fst-italic">(${esc(user.pronouns)})</p>
                                     </div>
@@ -46,12 +49,11 @@ if (page) {
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="user-modal-${id}" tabindex="-1" role="dialog" aria-labelledby="user-modal-${id}-label" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                <div class="modal fade" id="user-modal-${id}" tabindex="-1" aria-labelledby="user-modal-${id}-label" aria-hidden="true">
+                    <div class="modal-dialog">
                         <div class="modal-content ${colour}">
                             <div class="modal-header">
                                 <h2 class="modal-title" id="user-modal-${id}-label">
@@ -91,9 +93,4 @@ if (page) {
                 </div>`;
     })
     .join('');
-
-  // The cards are links with href="#", so stop them jumping to the top of the page.
-  document.getElementById('office').addEventListener('click', (event) => {
-    if (event.target.closest('a[href="#"]')) event.preventDefault();
-  });
 }
