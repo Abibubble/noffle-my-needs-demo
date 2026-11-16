@@ -452,3 +452,94 @@ a:focus {
     max-width: 50rem;
     margin: 40px auto;
 }
+
+
+/* =================================================================================== */
+/* Accessibility fixes                                                                 */
+/* From the WCAG 2.1 AA audit in November 2026. Each fix names the audit issue and     */
+/* the WCAG criterion. These override the team's original rules above.                 */
+/* =================================================================================== */
+
+/* ----------------------------------------------------------------------------------- C1, C2: Reflow (1.4.10) */
+
+/* The navbar and footer were fixed to the top and bottom of the screen. At 400% zoom
+   they covered 196 of 256 pixels, and the open menu ran off the screen.
+   Now the footer sits at the end of the page, and the navbar scrolls with the page.
+   The navbar only stays at the top on large screens, where it's one short row. */
+body {
+    height: auto;
+    padding-bottom: 0;
+}
+
+main {
+    padding-top: 0;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 10px 0;
+}
+
+/* Now the footer is part of the page, its Bootstrap row's negative margins made the
+   page 12px wider than the screen. */
+footer > .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* The menu button's 48px icon sat inside Bootstrap's 30px icon box, so it stuck out
+   past the edge of the screen, on top of Bootstrap's own icon. Now the button itself
+   is the 48px target, and only the team's icon shows. */
+.navbar-toggler {
+    min-width: 48px;
+    min-height: 48px;
+    margin-bottom: 0 !important;
+}
+
+.navbar-toggler-icon {
+    width: auto;
+    height: auto;
+    background-image: none;
+}
+
+.navbar-toggler-icon .tap-target {
+    min-width: 0;
+    min-height: 0;
+}
+
+@media (min-width: 992px) and (min-height: 600px) {
+    .navbar {
+        position: sticky;
+        top: 0;
+    }
+}
+
+/* ----------------------------------------------------------------------------------- M7: Text spacing (1.4.12) */
+
+/* The hero text box had a fixed height, and was positioned against the page instead of
+   the photo. With wider text spacing the text spilled out of the box.
+   Now the box grows with its text, and sits in the middle of the photo. */
+#hero-image {
+    height: auto;
+    min-height: 50vh;
+    padding: 40px 15px;
+}
+
+.hero-text-overlay {
+    position: static;
+    margin: 0 auto;
+    height: auto;
+    min-height: 160px;
+}
+
+@media screen and (min-width: 576px) {
+    #hero-image {
+        min-height: 60vh;
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .hero-text-overlay {
+        width: 100%;
+    }
+}

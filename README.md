@@ -76,7 +76,14 @@ free on GitHub Pages, without holding anyone's passwords or personal data.
 The team built Noffle My Needs with accessibility in mind, and this demo is being updated to
 meet [WCAG 2.1](https://www.w3.org/TR/WCAG21/) Level AA, the standard when it was built.
 
-The changes will be listed here as they're made.
+The changes will be listed here as they're made. They're all in the "Accessibility fixes"
+section at the end of `site/css/styles.css`, and each has a test in
+`tests/e2e/accessibility.spec.js`.
+
+| WCAG criterion | Problem | Fix |
+| --- | --- | --- |
+| 1.4.10 Reflow | At 400% zoom the fixed navbar and footer covered most of the screen, and the open menu ran off it | The footer sits at the end of the page. The navbar scrolls with the page, and only stays at the top on large screens |
+| 1.4.12 Text Spacing | With wider text spacing, the hero text spilled out of its box | The box grows with its text |
 
 ## Run it locally
 
