@@ -5,8 +5,8 @@
 // keeps the whole card clickable (WCAG 4.1.2 Name, Role, Value).
 //
 // The noffles on each card were icons only, and the panic button was only shown
-// by a red card. Now each icon has a text name for screen readers, and the panic
-// state has a visible text label (WCAG 1.1.1 Non-text Content, 1.4.1 Use of Colour).
+// by a red card. Now each icon has its name next to it, and the panic state has a
+// visible text label (WCAG 1.1.1 Non-text Content, 1.4.1 Use of Colour).
 
 import { avatarSrc } from '../avatars.js';
 import { esc, setupPage } from '../layout.js';
@@ -48,13 +48,13 @@ if (page) {
                                 </div>
                                 ${
                                   noffles.length
-                                    ? `<ul class="row list-unstyled noffle-icon-list" aria-label="Noffles">
+                                    ? `<ul class="list-unstyled noffle-icon-list" aria-label="Noffles">
                                     ${noffles
                                       .map(
                                         (noffle) => `
-                                        <li class="col-2 m-1 mt-2">
-                                            <i class="${esc(noffle.icon)} fa-2x noffle-icon" aria-hidden="true"></i>
-                                            <span class="visually-hidden">${esc(noffle.name)}</span>
+                                        <li>
+                                            <i class="${esc(noffle.icon)} fa-lg noffle-icon" aria-hidden="true"></i>
+                                            <span>${esc(noffle.name)}</span>
                                         </li>`,
                                       )
                                       .join('')}

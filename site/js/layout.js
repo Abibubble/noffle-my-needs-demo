@@ -87,19 +87,37 @@ function renderBanner(me) {
         </p>`;
 }
 
-function renderFlashes() {
-  const section = document.getElementById('flash');
-  if (!section) return;
-  section.innerHTML = takeFlashes()
-    .map(
-      ({ message, category }) => `
+function flashHtml({ message, category }) {
+  return `
                         <div class="row pb-4">
                             <div class="col-12 rounded flash-message">
                                 <p class="flash fw-bold py-1 ${category === 'error' ? 'error' : ''}">${esc(message)}</p>
                             </div>
-                        </div>`,
-    )
-    .join('');
+                        </div>`;
+}
+
+// Shows the messages left by the last page, like "Your details have been updated".
+// The original showed them at the top of the new page, but screen readers didn't
+// announce them, and focus started back at the top. Now, if there's a message,
+// focus moves to it, so it's read out and the next Tab carries on from there
+// (WCAG 4.1.3 Status Messages and 2.4.3 Focus Order).
+function renderFlashes() {
+  const section = document.getElementById('flash');
+  if (!section) return;
+  const flashes = takeFlashes();
+  section.innerHTML = flashes.map(flashHtml).join('');
+  if (flashes.length) {
+    section.tabIndex = -1;
+    section.focus();
+  }
+  // From now on it's a live region, so showStatus() messages are announced.
+  section.setAttribute('role', 'status');
+}
+
+// Shows a message on the current page, and screen readers announce it.
+export function showStatus(message, category = 'info') {
+  const section = document.getElementById('flash');
+  if (section) section.innerHTML = flashHtml({ message, category });
 }
 
 function renderFooter() {

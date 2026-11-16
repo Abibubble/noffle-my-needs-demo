@@ -247,6 +247,8 @@ test.describe('resetting and storage', () => {
     await page.goto('/profile.html');
     await page.getByRole('button', { name: 'Remove This Demo Person' }).click();
     await page.getByRole('button', { name: 'Remove Person' }).click();
+    // Wait for the page's script to run (it shows this message) before pressing Reset.
+    await expect(page.locator('#flash')).toContainText('User Successfully Deleted');
     await page.getByRole('button', { name: 'Reset the demo' }).click();
     await expect(page.locator('#flash')).toContainText('The demo has been reset');
     await expect(page.getByRole('button', { name: /Tom Brennan/ })).toBeVisible();

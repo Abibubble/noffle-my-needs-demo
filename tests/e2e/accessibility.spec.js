@@ -470,12 +470,29 @@ test.describe('Links', () => {
 });
 
 test.describe('1.1.1 and 1.4.1 Office cards', () => {
-  test('each noffle icon has a text name', async ({ page }) => {
+  test('each noffle icon has its name next to it', async ({ page }) => {
     await chooseAs(page, 'Sam Okafor');
     await page.goto('/office.html');
     const mei = page.locator('.office-card', { hasText: 'Mei Lin' });
     const list = mei.getByRole('list', { name: 'Noffles' });
     await expect(list.getByRole('listitem')).toHaveText(['I use BSL', 'Quiet space']);
+    // Shown on screen, not just to screen readers.
+    const width = await list
+      .getByText('I use BSL')
+      .evaluate((el) => el.getBoundingClientRect().width);
+    expect(width).toBeGreaterThan(30);
+  });
+
+  test("cards grow to fit, so nothing is hidden in a scroll box", async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/office.html');
+    const cards = await page.locator('.office-card').evaluateAll((all) =>
+      all.map((card) => ({
+        overflow: getComputedStyle(card).overflowY,
+        clipped: card.scrollHeight > card.clientHeight + 1,
+      })),
+    );
+    expect(cards.every((card) => card.overflow === 'visible' && !card.clipped)).toBe(true);
   });
 
   test('the panic state has a text label, not just a red card', async ({ page }) => {
@@ -521,4 +538,48 @@ test.describe('1.1.1 Decorative icons', () => {
       expect(exposed).toEqual([]);
     });
   }
+});
+
+test.describe('4.1.3 Status messages and 2.4.3 focus after actions', () => {
+  test('setting a Noffle updates in place, keeps focus, and announces the change', async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Sam Okafor');
+    // Mark the page, so we can tell if it reloads.
+    await page.evaluate(() => {
+      window.notReloaded = true;
+    });
+    const card = page.locator('[data-noffle-id="speak-up"]');
+    await card.focus();
+    await page.keyboard.press('Enter');
+    await expect(card).toHaveAttribute('aria-pressed', 'true');
+    await expect(card).toBeFocused();
+    await expect(page.getByRole('status')).toContainText('Noffle Please speak up added');
+    expect(await page.evaluate(() => window.notReloaded)).toBe(true);
+    // The change is saved.
+    await page.reload();
+    await expect(page.locator('[data-noffle-id="speak-up"]')).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('after a change that goes to a new page, focus starts on the message', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/profile.html');
+    await page.getByRole('button', { name: 'Update Details' }).click();
+    await expect(page.locator('#flash')).toContainText('Your details have been updated');
+    await expect(page.locator('#flash')).toBeFocused();
+    // The next Tab carries on from the message, into the page.
+    await page.keyboard.press('Tab');
+    const inMain = await page.evaluate(() =>
+      document.querySelector('main').contains(document.activeElement),
+    );
+    expect(inMain).toBe(true);
+  });
+
+  test('pages without a message keep focus at the top', async ({ page }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
+    await expect(page.locator('#flash')).not.toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
+  });
 });

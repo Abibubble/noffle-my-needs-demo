@@ -763,7 +763,31 @@ a:not(.btn):not(.nav-link):not(.navbar-brand) {
     border-radius: 5px;
 }
 
-/* The noffle icons are now a list, so keep the team's layout. */
+/* Each Noffle shows its icon and name on one line, so you don't need to know
+   what the icons mean. */
 .noffle-icon-list {
     margin: 0;
+    padding: 0;
+}
+
+.noffle-icon-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.noffle-icon-list li i {
+    width: 28px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+/* The cards had a fixed height with a scroll bar inside, so longer content was
+   hidden. Now they grow to fit. */
+.office-card {
+    height: auto;
+    min-height: 260px;
+    overflow-y: visible;
 }

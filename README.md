@@ -74,12 +74,13 @@ free on GitHub Pages, without holding anyone's passwords or personal data.
 
 ## Accessibility
 
-The team built Noffle My Needs with accessibility in mind, and this demo is being updated to
-meet [WCAG 2.1](https://www.w3.org/TR/WCAG21/) Level AA, the standard when it was built.
+The team built Noffle My Needs with accessibility in mind. In November 2026, this demo was
+audited against [WCAG 2.1](https://www.w3.org/TR/WCAG21/) Level AA, the standard when it was
+built, and every issue found was fixed.
 
-The changes will be listed here as they're made. They're all in the "Accessibility fixes"
-section at the end of `site/css/styles.css`, and each has a test in
-`tests/e2e/accessibility.spec.js`.
+The CSS changes are in the "Accessibility fixes" section at the end of `site/css/styles.css`,
+so the team's original CSS above it is unchanged. Each fix has a test in
+`tests/e2e/accessibility.spec.js`, and the site only deploys if they all pass.
 
 | WCAG criterion | Problem | Fix |
 | --- | --- | --- |
@@ -98,7 +99,8 @@ section at the end of `site/css/styles.css`, and each has a test in
 | 3.3.4 Error Prevention | "Delete Noffle" deleted straight away | Deleting a Noffle or a user asks you to confirm first |
 | 1.4.1 Use of Colour | Links in text weren't underlined, so they looked like the text around them | Links are underlined |
 | Best practice | Footer links opened a new tab without warning | They open in the same tab. The one link that opens a new tab says so |
-| 1.1.1 Non-text Content | Office cards showed each person's Noffles as icons only, with no text for screen readers. Decorative icons weren't hidden from screen readers | Each Noffle icon has a text name for screen readers. Decorative icons and avatars are hidden from them |
+| 1.1.1 Non-text Content | Office cards showed each person's Noffles as icons only, with no text. Decorative icons weren't hidden from screen readers | Each Noffle shows its name next to its icon. Decorative icons and avatars are hidden from screen readers. Cards grow to fit, instead of hiding content in a scroll box |
+| 4.1.3 Status Messages, 2.4.3 Focus Order | Messages like "Noffle added" weren't announced, and the page reloaded after every change, so focus went back to the top | Setting a Noffle updates the card without reloading, keeps focus on it, and announces the change. After other changes, focus moves to the message |
 | 1.4.1 Use of Colour | The panic button was only shown by a pale red card | Cards also show a "Needs urgent help" label (to admins and the person who pressed it) |
 | 2.4.7 Focus Visible, 1.4.11 Non-text Contrast | Keyboard focus was faint on the navbar links and missing on the buttons and the menu button. Form field edges turned light grey on hover and focus | Everything you can tab to gets a 3px black outline with a white gap. Form field edges stay black |
 
