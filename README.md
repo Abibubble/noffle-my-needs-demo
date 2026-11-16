@@ -87,6 +87,7 @@ section at the end of `site/css/styles.css`, and each has a test in
 | 2.4.2 Page Titled | Every page had the same title | Each page has its own title, like "Office \| Noffle My Needs demo" |
 | 1.3.1 Info and Relationships, 2.4.6 Headings and Labels | The site name in the navbar was the h1 on every page, and some pages skipped heading levels | Each page's own heading is its h1, and heading levels don't skip |
 | 2.4.1 Bypass Blocks | There was no quick way for keyboard users to get past the navbar | A "Skip to main content" link appears when you first press Tab |
+| 2.4.7 Focus Visible, 1.4.11 Non-text Contrast | Keyboard focus was faint on the navbar links and missing on the buttons and the menu button. Form field edges turned light grey on hover and focus | Everything you can tab to gets a 3px black outline with a white gap. Form field edges stay black |
 
 ## Run it locally
 

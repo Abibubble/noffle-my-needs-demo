@@ -588,3 +588,37 @@ main:focus {
         scroll-padding-top: 80px;
     }
 }
+
+/* ----------------------------------------------------------------------------------- S5: Focus visible (2.4.7, 1.4.11) */
+
+/* Keyboard focus was a faint blue glow on the navbar links (about 1.4:1 against the
+   grey), and nothing at all on the team's coloured buttons or the menu button.
+   Now everything you can tab to gets the same focus style: a 3px black outline with
+   a white gap, so it shows up on the grey navbar, the pastel cards and black borders. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible,
+.navbar-toggler:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+    outline: 3px solid black !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px white !important;
+}
+
+/* Form fields' borders turned light grey on hover and focus, so you couldn't see the
+   edge of the field (about 1.5:1). Now they stay black. */
+.form-control:hover,
+.form-control:focus {
+    border-color: black !important;
+}
+
+/* The Office cards are links around a block, so make the link a block too. Then the
+   focus outline goes neatly round the whole card. */
+a:has(> .office-card) {
+    display: block;
+}

@@ -141,3 +141,59 @@ test.describe('2.4.1 Skip link', () => {
     expect(inMain).toBe(true);
   });
 });
+
+test.describe('2.4.7 Focus visible', () => {
+  for (const { path, name } of PAGES) {
+    test(`${name}: everything you can tab to shows a clear focus outline`, async ({ page }) => {
+      await chooseAs(page, 'Sam Okafor');
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      const problems = [];
+      for (let i = 0; i < 60; i++) {
+        await page.keyboard.press('Tab');
+        const focus = await page.evaluate(() => {
+          const el = document.activeElement;
+          if (!el || el === document.body) return null;
+          const style = getComputedStyle(el);
+          return {
+            label: `${el.tagName} "${(el.textContent || el.value || '').trim().slice(0, 30)}"`,
+            style: style.outlineStyle,
+            width: parseFloat(style.outlineWidth),
+            colour: style.outlineColor,
+            inFooter: Boolean(el.closest('footer')),
+          };
+        });
+        if (!focus) break;
+        if (focus.style !== 'solid' || focus.width < 2 || focus.colour !== 'rgb(0, 0, 0)') {
+          problems.push(focus.label);
+        }
+        // Stop once we reach the footer: it's the same on every page.
+        if (focus.inFooter) break;
+      }
+      expect(problems).toEqual([]);
+    });
+  }
+
+  test('the mobile menu button shows a clear focus outline', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 700 });
+    await page.goto('/index.html');
+    await page.getByRole('button', { name: 'Toggle navigation' }).focus();
+    await page.keyboard.press('Shift+Tab');
+    await page.keyboard.press('Tab');
+    const outline = await page
+      .getByRole('button', { name: 'Toggle navigation' })
+      .evaluate((el) => getComputedStyle(el).outlineStyle);
+    expect(outline).toBe('solid');
+  });
+});
+
+test.describe('1.4.11 Form field edges', () => {
+  test('stay black on hover and focus', async ({ page }) => {
+    await page.goto('/choose.html');
+    const field = page.locator('#first_name');
+    await field.hover();
+    expect(await field.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe('rgb(0, 0, 0)');
+    await field.focus();
+    expect(await field.evaluate((el) => getComputedStyle(el).borderTopColor)).toBe('rgb(0, 0, 0)');
+  });
+});
