@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- GitHub Pages shows this page for any missing address, including ones in
+         folders that don't exist. This makes the links below still point to the site's root. -->
+    <script>
+        (function () {
+            var root = location.pathname.indexOf('/noffle-my-needs-demo/') === 0 ? '/noffle-my-needs-demo/' : '/';
+            var base = document.createElement('base');
+            base.href = root;
+            document.head.appendChild(base);
+        })();
+    </script>
+    <!-- Metas -->
+    <meta name="description"
+        content="A browser-only demo of Noffle My Needs: an office map-style site which allows all employees to express their needs through the workday, to create a fully accessible workplace.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Local stylesheets -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap and Font Awesome, served from this site -->
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+    <title>Noffle My Needs</title>
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="site-nav"></nav>
+
+    <main class="container mt-4">
+
+        <div id="demo-banner" class="demo-banner">
+            <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
+        </div>
+
+        <!-- Flash messages -->
+        <section id="flash"></section>
+
+        <!-- Main content container -->
+        <div>
+            <section class="container">
+                <div class="row text-center">
+                    <div class="col-12 d-grid">
+                        <h3 class="my-3">Oh no! It looks like something went wrong!</h3>
+                        <a class="btn btn-error btn-blue w-auto m-auto mb-3" href="index.html">
+                            Click here to return to safety
+                        </a>
+                        <p><i class="fas fa-5x fa-unlink"></i></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed-bottom align-middle" id="site-footer"></footer>
+
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="module" src="js/pages/not-found.js"></script>
+</body>
+
+</html>

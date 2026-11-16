@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- Metas -->
+    <meta name="description"
+        content="A browser-only demo of Noffle My Needs: an office map-style site which allows all employees to express their needs through the workday, to create a fully accessible workplace.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Local stylesheets -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap and Font Awesome, served from this site -->
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+    <title>Noffle My Needs</title>
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="site-nav"></nav>
+
+    <main class="container mt-4">
+
+        <div id="demo-banner" class="demo-banner">
+            <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
+        </div>
+
+        <!-- Flash messages -->
+        <section id="flash"></section>
+
+        <!-- Main content container -->
+        <div>
+            <h2 class="text-center">Manage Noffles</h2>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 offset-3">
+                        <a role="button" class="btn btn-green fw-bold pt-2 w-100 mb-4 tap-target" href="new-noffle.html">
+                            Add New Noffle
+                        </a>
+                    </div>
+                </div>
+                <div class="row" id="noffle-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed-bottom align-middle" id="site-footer"></footer>
+
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="module" src="js/pages/manage-noffles.js"></script>
+</body>
+
+</html>

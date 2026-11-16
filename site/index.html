@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- Metas -->
+    <meta name="description"
+        content="A browser-only demo of Noffle My Needs: an office map-style site which allows all employees to express their needs through the workday, to create a fully accessible workplace.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Local stylesheets -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap and Font Awesome, served from this site -->
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+    <title>Noffle My Needs</title>
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="site-nav"></nav>
+
+    <main class="container mt-4">
+
+        <div id="demo-banner" class="demo-banner">
+            <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
+        </div>
+
+        <!-- Flash messages -->
+        <section id="flash"></section>
+
+        <!-- Main content container -->
+        <div>
+            <div class="container-fluid" id="hero-image">
+                <div class="hero-text-overlay text-center">
+                    <h2 class="hero-heading text-uppercase">Hello</h2>
+                    <h3 class="hero-text">Let's Make Our Day Beautiful...</h3>
+                  </div>
+            </div>
+
+            <h2 class="about-heading text-center">About Noffle My Needs</h2>
+            <p class="about-text text-center">Begin your workday with a smile as you log in to 'Noffle My Needs'. Here you will find a tool to create the
+                conditions you require in order for your workspace to be as accessible and inclusive as possible. Each state of
+                need is a 'Noffle'. Now keep a straight face as you select your Noffle Needs...</p>
+
+            <section id="about-demo" class="about-demo" aria-labelledby="about-demo-heading">
+                <h2 id="about-demo-heading" class="text-center">About this demo</h2>
+                <p>
+                    Noffle My Needs was built by the team A11y Allies for the Trust In SODA and Code Institute
+                    Hackathon, in September 2021. The theme was "Building An Accessible Workplace".
+                </p>
+                <p>
+                    A "Noffle" is a need you set on your work status, like "Please speak up". You can set your
+                    own Noffles, and see the public Noffles of the people you work with.
+                </p>
+                <h3>How to try it</h3>
+                <ul>
+                    <li><a href="choose.html">Choose a demo person</a> to view the site as them.</li>
+                    <li>Choose Alex Morgan to try the admin pages.</li>
+                    <li>There are no real accounts or passwords. Nothing is sent to a server.</li>
+                    <li>Anything you change is saved only in this browser. You can reset it on the
+                        <a href="choose.html">Choose a Demo Person</a> page.</li>
+                </ul>
+                <h3>The A11y Allies team</h3>
+                <ul>
+                    <li><a href="https://github.com/Abibubble">Abi Harrison</a></li>
+                    <li><a href="https://github.com/andrewdempsey2018">Andrew Dempsey</a></li>
+                    <li><a href="https://github.com/CarlaBuongiorno">Carla Buongiorno</a></li>
+                    <li><a href="https://github.com/Henriqueperoni">Henrique Peroni</a></li>
+                    <li><a href="https://github.com/monika-hrda">Monika Hrda</a></li>
+                </ul>
+                <p>Our team facilitator was <a href="https://www.linkedin.com/in/megan-armstrong4/">Megan Armstrong</a>.</p>
+                <h3>Changes since the hackathon</h3>
+                <p>This demo has been updated since the hackathon:</p>
+                <ul>
+                    <li>It runs only in your browser, with no server, database, accounts or passwords.</li>
+                    <li>The sample colleagues are made up.</li>
+                    <li>The avatars are new, simple shapes.</li>
+                </ul>
+                <p><a href="https://github.com/Abibubble/noffle-my-needs">See the original hackathon code on GitHub</a>.</p>
+                <p>The photo at the top of this page is by <a href="https://www.pexels.com/@fauxels">Fauxels on Pexels</a>.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed-bottom align-middle" id="site-footer"></footer>
+
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="module" src="js/pages/landing.js"></script>
+</body>
+
+</html>

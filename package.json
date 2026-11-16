@@ -1,0 +1,29 @@
+{
+  "name": "noffle-my-needs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser-only demo of Noffle My Needs, built by the A11y Allies team for the Trust In SODA and Code Institute Hackathon, September 2021",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "postinstall": "node scripts/copy-vendor.js",
+    "vendor": "node scripts/copy-vendor.js",
+    "start": "serve site --listen 4175 --no-clipboard --config ../serve.json",
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
+    "test:e2e": "playwright test"
+  },
+  "packageManager": "pnpm@10.34.9",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.15.4",
+    "bootstrap": "5.3.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
+    "serve": "^14.2.8"
+  }
+}

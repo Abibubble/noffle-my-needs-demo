@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Playwright output
+test-results/
+playwright-report/
+
+# Bootstrap and Font Awesome, copied from node_modules by `pnpm install`
+site/vendor/

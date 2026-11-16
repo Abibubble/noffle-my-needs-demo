@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- Metas -->
+    <meta name="description"
+        content="A browser-only demo of Noffle My Needs: an office map-style site which allows all employees to express their needs through the workday, to create a fully accessible workplace.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Local stylesheets -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap and Font Awesome, served from this site -->
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+    <title>Noffle My Needs</title>
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="site-nav"></nav>
+
+    <main class="container mt-4">
+
+        <div id="demo-banner" class="demo-banner">
+            <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
+        </div>
+
+        <!-- Flash messages -->
+        <section id="flash"></section>
+
+        <!-- Main content container -->
+        <div>
+            <section class="container">
+                <div class="row">
+                    <h2 class="text-center mb-5">Add New Noffle</h2>
+                </div>
+                <div class="container">
+                    <div class="row form-area rounded mx-auto mb-2">
+                        <form id="new-noffle-form">
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-sticky-note"></i></div>
+                                <label for="name" class="sr-only">Noffle Name</label>
+                                <div class="col-10">
+                                    <input type="text" class="form-control" name="name" id="name" minlength="5" maxlength="15" placeholder="Noffle Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="far fa-2x fa-comment-alt"></i></div>
+                                <label for="description" class="sr-only">Description</label>
+                                <div class="col-10">
+                                    <input id="description" name="description" placeholder="Description" class="form-control" type="text" minlength="3" maxlength="200" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <p>To find an icon, please visit <a href="https://fontawesome.com/v5/search?m=free">Font Awesome</a>, search for your required icon, and enter the text between the " "</p>
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-icons"></i></div>
+                                <label for="icon" class="sr-only">Icon</label>
+                                <div class="col-10">
+                                    <input id="icon" name="icon" placeholder="Icon" type="text" class="form-control" minlength="2" maxlength="40" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-star-half-alt"></i></div>
+                                <div class="col-10">
+                                    <input id="permanent" name="permanent" type="checkbox">
+                                    <label for="permanent">Permanent</label>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-key"></i></div>
+                                <div class="col-10">
+                                    <input id="private" name="private" type="checkbox">
+                                    <label for="private">Private as standard</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button name="login" id="login" class="btn btn-green mt-3 tap-target" type="submit">Submit New Noffle</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed-bottom align-middle" id="site-footer"></footer>
+
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="module" src="js/pages/new-noffle.js"></script>
+</body>
+
+</html>

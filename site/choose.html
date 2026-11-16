@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- Metas -->
+    <meta name="description"
+        content="A browser-only demo of Noffle My Needs: an office map-style site which allows all employees to express their needs through the workday, to create a fully accessible workplace.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Local stylesheets -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap and Font Awesome, served from this site -->
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+    <title>Noffle My Needs</title>
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="site-nav"></nav>
+
+    <main class="container mt-4">
+
+        <div id="demo-banner" class="demo-banner">
+            <noscript><p class="mb-0">This demo needs JavaScript to work.</p></noscript>
+        </div>
+
+        <!-- Flash messages -->
+        <section id="flash"></section>
+
+        <!-- Main content container -->
+        <div>
+            <!-- Replaces the original Log In page. There are no accounts in the demo. -->
+            <section class="container" aria-labelledby="choose-heading">
+                <h2 id="choose-heading" class="text-center mb-4">Choose a Demo Person</h2>
+                <div class="choose-intro mb-4">
+                    <p>
+                        The original site had real accounts with usernames and passwords. This demo doesn't.
+                        Choose one of these made-up colleagues to view the site as them.
+                    </p>
+                    <p>Alex Morgan is an admin, so you can try the Manage Users and Manage Noffles pages.</p>
+                    <p id="viewing-as" hidden></p>
+                </div>
+                <ul class="person-list row" id="person-list"></ul>
+            </section>
+
+            <!-- Replaces the original Register page. No username or password is needed. -->
+            <section class="container mt-5">
+                <div class="row">
+                    <h2 class="text-center mb-5">Add a Demo Person</h2>
+                </div>
+                <div class="container">
+                    <div class="row form-area rounded mx-auto mb-2">
+                        <form id="add-person-form">
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card"></i></div>
+                                <label for="first_name" class="sr-only">First Name</label>
+                                <div class="col-10">
+                                    <input id="first_name" name="first_name" placeholder="First Name" class="form-control" type="text" minlength="3" maxlength="20" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-address-card"></i></div>
+                                <label for="last_name" class="sr-only">Last Name</label>
+                                <div class="col-10">
+                                    <input id="last_name" name="last_name" placeholder="Last Name" type="text" class="form-control" minlength="2" maxlength="40" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-genderless"></i></div>
+                                <label for="pronouns" class="sr-only">Pronouns</label>
+                                <div class="col-10">
+                                    <input id="pronouns" name="pronouns" type="text" minlength="5" maxlength="40" class="form-control" placeholder="(Pronouns - format she/her, he/him, they/them" required>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <div class="col-2 center-icon"><i class="fas fa-2x fa-image"></i></div>
+                                <label for="image_no" class="sr-only">Avatar Image Number</label>
+                                <div class="col-10">
+                                    <input id="image_no" name="image_no" placeholder="Avatar image number" type="number" min="1" max="13" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button name="login" id="login" class="btn login-btn btn-green mt-3 tap-target" type="submit">Add Person</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 offset-md-3" id="avatar-carousel"></div>
+                </div>
+            </section>
+
+            <section class="container mt-5 mb-5" aria-labelledby="reset-heading">
+                <h2 id="reset-heading" class="text-center mb-4">Reset the Demo</h2>
+                <p class="text-center">This puts back the sample colleagues and Noffles, and removes any changes you've made in this browser.</p>
+                <div class="text-center">
+                    <button type="button" id="reset-demo" class="btn btn-red tap-target">Reset the demo</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed-bottom align-middle" id="site-footer"></footer>
+
+    <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="module" src="js/pages/choose.js"></script>
+</body>
+
+</html>
