@@ -68,18 +68,37 @@ test.describe('as a colleague', () => {
     );
   });
 
-  test('the office shows colleagues, and the panic button turns a card red', async ({ page }) => {
+  test('the office shows colleagues', async ({ page }) => {
     await chooseAs(page, 'Sam Okafor');
     await page.goto('/office.html');
     await expect(page.locator('.office-card')).toHaveCount(8);
+    await page.locator('.office-card', { hasText: 'Tom Brennan' }).click();
+    const modal = page.locator('#user-modal-tom');
+    await expect(modal).toBeVisible();
+    await expect(modal).toContainText('Focus time');
+    await modal.getByRole('button', { name: 'Close' }).last().click();
+    await expect(modal).toBeHidden();
+  });
+
+  test("someone else's panic button is hidden from non-admins, because it's private", async ({
+    page,
+  }) => {
+    await chooseAs(page, 'Sam Okafor');
+    await page.goto('/office.html');
     const jordan = page.locator('.office-card', { hasText: 'Jordan Ellis' });
-    await expect(jordan.locator('.btn-red')).toHaveCount(1);
+    await expect(jordan.locator('.btn-red')).toHaveCount(0);
     await jordan.click();
     const modal = page.locator('#user-modal-jordan');
     await expect(modal).toBeVisible();
-    await expect(modal).toContainText('Jordan is in need of urgent help!');
-    await modal.getByRole('button', { name: 'Close' }).last().click();
-    await expect(modal).toBeHidden();
+    await expect(modal).not.toContainText('urgent help');
+    await expect(modal).not.toContainText('Panic button');
+  });
+
+  test('you can see your own panic button in the office', async ({ page }) => {
+    await chooseAs(page, 'Jordan Ellis');
+    await page.goto('/office.html');
+    const jordan = page.locator('.office-card', { hasText: 'Jordan Ellis' });
+    await expect(jordan.locator('.btn-red')).toHaveCount(1);
   });
 
   test("other people's private noffles are hidden from non-admins", async ({ page }) => {
@@ -205,6 +224,17 @@ test.describe('as an admin', () => {
     await page.goto('/office.html');
     await page.locator('.office-card', { hasText: 'Rowan Hughes' }).click();
     await expect(page.locator('#user-modal-rowan')).toContainText('Low energy day');
+  });
+
+  test('admins can see when someone has pressed the panic button', async ({ page }) => {
+    await chooseAs(page, 'Alex Morgan');
+    await page.goto('/office.html');
+    const jordan = page.locator('.office-card', { hasText: 'Jordan Ellis' });
+    await expect(jordan.locator('.btn-red')).toHaveCount(1);
+    await jordan.click();
+    await expect(page.locator('#user-modal-jordan')).toContainText(
+      'Jordan is in need of urgent help!',
+    );
   });
 });
 

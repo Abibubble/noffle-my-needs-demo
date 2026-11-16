@@ -66,7 +66,8 @@ free on GitHub Pages, without holding anyone's passwords or personal data.
 - The sample colleagues and their Noffles are made up.
 - The avatars are new, simple shapes. The originals were licensed images.
 - Private Noffles are now only shown to admins and to the person who set them, as the original
-  site described.
+  site described. This includes the panic button, so only admins see when someone needs urgent
+  help.
 - Bootstrap and Font Awesome are served from the site itself, so no third-party requests are
   made.
 - The team's HTML and CSS were kept as close to the original as possible.

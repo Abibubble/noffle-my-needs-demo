@@ -13,6 +13,7 @@ import {
   greeting,
   groupNoffles,
   hasPanic,
+  showsPanic,
   switchOut,
   toggleAdmin,
   toggleNoffle,
@@ -127,6 +128,30 @@ describe('visibleNoffles', () => {
     const alex = state.people.find((p) => p.id === 'alex');
     assert.ok(visibleNoffles(state, rowan, rowan).some((n) => n.id === 'low-energy'));
     assert.ok(visibleNoffles(state, rowan, alex).some((n) => n.id === 'low-energy'));
+  });
+});
+
+describe('showsPanic', () => {
+  it('hides the panic state from other non-admins, because the panic button is private', () => {
+    const state = freshState();
+    const jordan = state.people.find((p) => p.id === 'jordan');
+    const sam = state.people.find((p) => p.id === 'sam');
+    assert.equal(showsPanic(state, jordan, sam), false);
+  });
+
+  it('shows the panic state to admins and to the person who pressed it', () => {
+    const state = freshState();
+    const jordan = state.people.find((p) => p.id === 'jordan');
+    const alex = state.people.find((p) => p.id === 'alex');
+    assert.equal(showsPanic(state, jordan, alex), true);
+    assert.equal(showsPanic(state, jordan, jordan), true);
+  });
+
+  it('is false for someone who has not pressed it', () => {
+    const state = freshState();
+    const tom = state.people.find((p) => p.id === 'tom');
+    const alex = state.people.find((p) => p.id === 'alex');
+    assert.equal(showsPanic(state, tom, alex), false);
   });
 });
 

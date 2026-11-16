@@ -70,6 +70,12 @@ export function visibleNoffles(state, person, viewer) {
   return noffleList(state, person).filter((n) => canSeePrivate || !n.private);
 }
 
+// Whether the viewer should see that this person pressed the panic button.
+// The panic button is a private noffle, so it follows the same rule.
+export function showsPanic(state, person, viewer) {
+  return visibleNoffles(state, person, viewer).some((n) => n.id === PANIC_ID);
+}
+
 // Permanent noffles and the panic button go in the first group, like the original.
 export function groupNoffles(state) {
   const permanent = [];

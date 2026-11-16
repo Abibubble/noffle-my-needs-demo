@@ -2,7 +2,7 @@
 
 import { avatarSrc } from '../avatars.js';
 import { esc, setupPage } from '../layout.js';
-import { hasPanic, visibleNoffles } from '../store.js';
+import { showsPanic, visibleNoffles } from '../store.js';
 
 const page = setupPage({ requires: 'person' });
 
@@ -11,7 +11,8 @@ if (page) {
 
   document.getElementById('office').innerHTML = state.people
     .map((user) => {
-      const colour = hasPanic(user) ? 'btn-red' : 'btn-green';
+      const panic = showsPanic(state, user, me);
+      const colour = panic ? 'btn-red' : 'btn-green';
       const noffles = visibleNoffles(state, user, me);
       const id = esc(user.id);
       const name = `${esc(user.first_name)} ${esc(user.last_name)}`;
@@ -62,7 +63,7 @@ if (page) {
                             </div>
                             <div class="modal-body">
                                 ${
-                                  hasPanic(user)
+                                  panic
                                     ? `<p class="h5 text-uppercase">
                                         <b>${esc(user.first_name)} is in need of urgent help!</b>
                                     </p>`
